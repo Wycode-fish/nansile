@@ -1,0 +1,56 @@
+#version 330 core
+
+struct Material
+{
+            vec3        ambient;
+            vec3        diffuse;
+            vec3        specular;
+            float       shiness;
+};
+
+struct Light
+{
+            vec3        ambient;
+            vec3        diffuse;
+            vec3        specular;
+            float       attenuation_Kc; // constant;
+            float       attenuation_Kl; // linear;
+            float       attenuation_Kq; // quadratic;
+};
+
+in          vec3        v_VPos;
+in          vec3        v_Normal;
+in          vec3        v_FragPos;
+
+out         vec4        color;
+
+uniform     Material    u_Material;
+uniform     Light       u_Light;
+uniform     vec3        u_LightColor = vec3(1.0f,1.0f,1.0f);
+uniform     vec3        u_LightPos = vec3(0.0f, 0.0f, 0.0f);
+uniform     float       u_AmbiantLightStrength = 0.1f;
+uniform     vec3        u_CameraPos = vec3(0.0f, 0.0f, 2.0f);
+
+void main()
+{
+float lightIntensity = 3.0f;
+float light2FragDistance = length(u_LightPos - v_FragPos);
+float attenuationFactor = lightIntensity / (u_Light.attenuation_Kc + u_Light.attenuation_Kl * light2FragDistance + pow(u_Light.attenuation_Kq, 2) * light2FragDistance);
+vec3 pureColor = vec3(0.4f, 0.4f, 0.4f) + u_LightColor / lightIntensity;
+
+// Ambient Light
+vec3 ambientLight = pureColor  * u_Material.ambient * u_Light.ambient;
+
+// Diffuse Light
+float cos = max( dot(normalize(u_LightPos - v_FragPos), normalize(v_Normal)), 0.0f);
+vec3 diffuseLight = pureColor * cos * u_Material.diffuse * u_Light.diffuse;
+
+// Specular Light
+vec3 viewDirection = normalize(u_CameraPos - v_FragPos);
+vec3 reflectDirection = reflect(normalize(v_FragPos - u_LightPos), normalize(v_Normal));
+float specularIntensity = pow(max(dot(viewDirection, reflectDirection), 0), u_Material.shiness);
+vec3 specularLight = pureColor * u_Material.specular * u_Light.specular * specularIntensity;
+
+color = vec4(ambientLight + diffuseLight + specularLight, 1.0f) * attenuationFactor;
+}
+

@@ -1,0 +1,14 @@
+#version 330 core
+
+in vec3 v_TexCoords;
+
+out vec4 color;
+
+uniform samplerCube u_CubeMap;
+
+
+void main()
+{
+    color = texture(u_CubeMap, v_TexCoords);
+}
+

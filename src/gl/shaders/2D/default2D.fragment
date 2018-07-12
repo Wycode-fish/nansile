@@ -1,0 +1,15 @@
+#version 330 core
+
+in vec2 v_textCoords;
+out vec4 color;
+
+uniform vec4 in_color;
+uniform sampler2D u_Texture;
+
+void main()
+{
+    vec4 textureColor = texture(u_Texture, v_textCoords);
+    color = textureColor;
+    if (color.w<1.0f)
+        discard;
+}
