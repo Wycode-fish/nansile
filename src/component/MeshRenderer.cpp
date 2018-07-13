@@ -93,7 +93,7 @@ MeshRenderer::~MeshRenderer()
         delete m_Renderer;
 }
 
-void MeshRenderer::Reload(ModelElement_Group mElement, const std::shared_ptr<Shader> shader, const std::shared_ptr<Texture> texture)
+void MeshRenderer::Reload(ModelElement_Group mElement, Shader*& shader, Texture*& texture)
 {
     m_Material->SetShader(shader);
     m_Material->SetTexture(texture);
@@ -113,7 +113,7 @@ void MeshRenderer::ApplyLight(Light* light)
     
     glm::vec3 pos = light->GetTransform()->GetPosition();
     
-    std::shared_ptr<Shader> shaderPtr = m_Material->GetShader();
+    Shader* shaderPtr = m_Material->GetShader();
     shaderPtr->Use();
     shaderPtr->SetUniform3f("u_LightPos", pos.x, pos.y, pos.z);
     shaderPtr->SetUniform3f("u_LightColor", color.x, color.y, color.z);
@@ -132,9 +132,9 @@ void MeshRenderer::RenderPrepare()
         ApplyLight(Light::ActiveLights[i]);
     }
     
-    std::shared_ptr<Shader> shaderPtr = m_Material->GetShader();
+    Shader* shaderPtr = m_Material->GetShader();
     shaderPtr->Use();
-    if (GetMaterial()->GetTexture().get()!=NULL)
+    if (GetMaterial()->GetTexture()!=NULL)
     {
         shaderPtr->SetUniform1i("u_Texture", 0);
         shaderPtr->SetUniform1i("u_TextureExist", 1);

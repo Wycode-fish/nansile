@@ -43,7 +43,7 @@ public:
     inline Renderer* GetRenderer() const { return m_Renderer; }
     
 public:
-    void Reload(ModelElement_Group mElement, const std::shared_ptr<Shader> shader, const std::shared_ptr<Texture> texture);
+    void Reload(ModelElement_Group mElement, Shader*& shader, Texture*& texture);
 private:
     Model* m_Model;
     std::shared_ptr<Material> m_Material;

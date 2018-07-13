@@ -47,6 +47,8 @@ Texture::Texture(const char* filePath)
 : m_RendererID(0), m_LocalBuffer(NULL), m_FilePath(filePath), m_Width(0), m_Height(0), m_BPP(0), m_Format(0)
 {
     LoadTexture(filePath);
+    std::cout<<"[INFO]: '"<<filePath<<"' texture genrerated."<<std::endl;
+
 }
 
 Texture::~Texture()

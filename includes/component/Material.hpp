@@ -58,16 +58,16 @@ public:
              MaterialAttribs*   attribs     =   new MaterialAttribs());
     ~Material();
 public:
-    inline std::shared_ptr<Shader>  GetShader() const   { return m_Shader;  }
-    inline std::shared_ptr<Texture> GetTexture() const  { return m_Texture; }
+    inline Shader*  GetShader() const   { return m_Shader;  }
+    inline Texture* GetTexture() const  { return m_Texture; }
     inline MaterialAttribs*         GetAttribs() const  { return m_Attribs; }
     
-    inline      void     SetShader   (const std::shared_ptr<Shader> shader)      { m_Shader = shader; }
-    inline      void     SetTexture  (const std::shared_ptr<Texture> texture)    { m_Texture = texture; }
+    inline      void     SetShader   (Shader* shader)      { m_Shader = shader; }
+    inline      void     SetTexture  (Texture* texture)    { m_Texture = texture; }
 
 private:
     MaterialAttribs* m_Attribs;
-    std::shared_ptr<Shader> m_Shader;
-    std::shared_ptr<Texture> m_Texture;
+    Shader* m_Shader;
+    Texture* m_Texture;
 };
 #endif /* Material_hpp */

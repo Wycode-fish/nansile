@@ -28,21 +28,21 @@ void MaterialAttribs::ResetMatAttribs()
 
 void MaterialAttribs::Brighter()
 {
-    m_Ambient.x++;
+    m_Ambient.x += 0.1f;
     m_Ambient.x = (m_Ambient.x > 1.0f)?1.0f:m_Ambient.x;
-    m_Ambient.y++;
+    m_Ambient.y += 0.1f;
     m_Ambient.y = (m_Ambient.y > 1.0f)?1.0f:m_Ambient.y;
-    m_Ambient.z++;
+    m_Ambient.z += 0.1f;
     m_Ambient.z = (m_Ambient.z > 1.0f)?1.0f:m_Ambient.z;
 }
 
 void MaterialAttribs::Dimmer()
 {
-    m_Ambient.x--;
+    m_Ambient.x -= 0.1f;
     m_Ambient.x = (m_Ambient.x < 0.0f)?0.0f:m_Ambient.x;
-    m_Ambient.y--;
+    m_Ambient.y -= 0.1f;
     m_Ambient.y = (m_Ambient.y < 0.0f)?0.0f:m_Ambient.y;
-    m_Ambient.z--;
+    m_Ambient.z -= 0.1f;
     m_Ambient.z = (m_Ambient.z < 0.0f)?0.0f:m_Ambient.z;
 }
 

@@ -59,10 +59,14 @@ namespace gui {
             if (objNames[i]!=NULL)
                 delete objNames[i];
         }
+        
+        ImGui::Text("Application average %.1f FPS", ImGui::GetIO().Framerate);
+
         ImGui::End();
         
         m_GameObjectPanel->OnRender();
     }
+    
     
     void ScenePanel::OnUpdate()
     {
@@ -72,8 +76,10 @@ namespace gui {
             
             if (m_GameObjectPanel->GetGameObject() != DisplaySys::Main_Camera)
             {
-                glm::vec3 posOffset = DisplaySys::Main_Camera->GetTransform()->GetPosition() - m_GameObjectPanel->GetGameObject()->GetTransform()->GetPosition();
+//                glm::vec3 posOffset = DisplaySys::Main_Camera->GetTransform()->GetPosition() - m_GameObjectPanel->GetGameObject()->GetTransform()->GetPosition();
+                glm::vec3 posOffset = glm::vec3(0.0f, 0.0f, (10) * selectedGameObj->GetTransform()->GetScale().z);
                 DisplaySys::Main_Camera->GetTransform()->SetPosition(selectedGameObj->GetTransform()->GetPosition() + posOffset);
+                DisplaySys::Main_Camera->GetTransform()->SetRotation(selectedGameObj->GetTransform()->GetPosition() - DisplaySys::Main_Camera->GetTransform()->GetPosition());
             }
             
             MeshRenderer* mr_curr;

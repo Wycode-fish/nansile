@@ -116,7 +116,7 @@ void Cube::OnRender()
     if (mr!=NULL)
     {
         mr->RenderPrepare();
-        std::shared_ptr<Shader> shaderPtr = mr->GetMaterial()->GetShader();
+        Shader* shaderPtr = mr->GetMaterial()->GetShader();
         shaderPtr->Use();
         
         glm::vec3 camPos = DisplaySys::Main_Camera->GetTransform()->GetPosition();

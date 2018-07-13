@@ -81,12 +81,12 @@ namespace gui {
                 auto curr_texture = m_MeshRenderer->GetMaterial()->GetTexture();
                 
                 if ( curr_texture!=NULL && strcmp(curr_selectedTextureName, "Standard")==0)
-                    m_MeshRenderer->GetMaterial()->SetTexture(std::shared_ptr<Texture>(NULL));
+                    m_MeshRenderer->GetMaterial()->SetTexture(NULL);
                 
                 else if ( curr_texture==NULL ||
                          strcmp(curr_texture->GetFilePath(), curr_selectedTextureName) != 0)
                 {
-                    m_MeshRenderer->GetMaterial()->SetTexture(std::shared_ptr<Texture>(Texture::GetTexture(curr_selectedTextureName)));
+                    m_MeshRenderer->GetMaterial()->SetTexture(Texture::GetTexture(curr_selectedTextureName));
                 }
             }
             ImGui::TreePop();
