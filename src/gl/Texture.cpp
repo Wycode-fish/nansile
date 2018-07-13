@@ -17,21 +17,8 @@ Texture* Texture::GetTexture(const char* filePath)
     auto it = ResourceManager::GetTextureResourceMap().find(filePath);
     if (it != ResourceManager::GetTextureResourceMap().end())
     {
-//        std::cout<<"[INFO]: Existed texture '"<<ResourceManager::GetTextureResourceMap()[filePath]->GetFilePath()<<"' found."<<std::endl;
-        auto map = ResourceManager::GetTextureResourceMap();
-        auto tex = ResourceManager::GetTextureResourceMap()[filePath];
-        if ( tex == nullptr)
-        {
-            std::cout<<"shittt"<<std::endl;
-        }
-        else
-        {
-            std::cout<<"[INFO]: Existed texture '"<<ResourceManager::GetTextureResourceMap()[filePath]->GetFilePath()<<"' found."<<std::endl;
-
-        }
         return ResourceManager::GetTextureResourceMap()[filePath];
     }
-    
     else
         return new Texture(filePath);
 }
