@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include "GameObject.hpp"
-
+#include "Model.hpp"
 
 class Cube: public GameObject
 {

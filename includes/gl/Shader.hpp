@@ -23,6 +23,7 @@ class Shader
 {
 public:
     Shader(const std::string& vsPath, const std::string& fsPath);
+    Shader(ShaderSources shaderSrc);
     void Use();
     void Drop();
     void SetUniform4f(const char* varName, float v1, float v2, float v3, float v4);

@@ -17,6 +17,7 @@
 #include <string>
 
 class Texture;
+class Shader;
 class GameObject;
 
 
@@ -31,6 +32,8 @@ class ResourceManager
 {
 public:
     static const char* TexturePath;
+    static const char* ShaderPath;
+    
 public:
     static ResourceManager* GetInstance();
     void Init();
@@ -38,10 +41,12 @@ public:
   
 private:
     static std::unordered_map<std::string, Texture* const> m_Textures;
+    static std::unordered_map<std::string, Shader* const> m_Shaders;
 public:
     static inline GAMEOBJECT_GENERATORS GetGenerators() { return m_Generators; }
     static inline std::unordered_map<std::string, Texture* const> GetTextureResourceMap() { return m_Textures; }
-    
+    static inline std::unordered_map<std::string, Shader* const> GetShadereResourceMap() { return m_Shaders; }
+
 private:
 //    static std::vector<std::pair<const char*, OBJ_GENERATOR> > m_Generators;
     static GAMEOBJECT_GENERATORS m_Generators;
@@ -59,7 +64,6 @@ public:
     {
         m_Generators.names.push_back(gameObjectName);
         m_Generators.generators.push_back([](){ return new T();});
-//        m_Generators.push_back(std::make_pair(gameObjectName, new T));
     }
     
 private:

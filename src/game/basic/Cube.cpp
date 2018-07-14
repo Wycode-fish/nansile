@@ -85,14 +85,14 @@ void Cube::MeshRendererBind()
 //                                                                                                  Cube::DefaultShader_Path[1])))));
 
     
-    VertexBufferLayout texLayout;
-    texLayout.Add<float>(3, GL_FALSE);
-    texLayout.Add<float>(2, GL_FALSE);
-    texLayout.Add<float>(3, GL_FALSE);
-    ModelElement_Group texModelElement = { Cube::DefaultModel_VertPos, sizeof(float) * 8 * 4 * 6, texLayout,
-        Cube::DefaultModel_VertIdx, 6 * 6 };
+//    VertexBufferLayout texLayout;
+//    texLayout.Add<float>(3, GL_FALSE);
+//    texLayout.Add<float>(2, GL_FALSE);
+//    texLayout.Add<float>(3, GL_FALSE);
+//    ModelElement_Group texModelElement = { Cube::DefaultModel_VertPos, sizeof(float) * 8 * 4 * 6, texLayout,
+//        Cube::DefaultModel_VertIdx, 6 * 6 };
     
-    AddComponent<MeshRenderer>(new MeshRenderer(this, texModelElement,
+    AddComponent<MeshRenderer>(new MeshRenderer(this, ModelElement_Group::ModelElement_Group_Prefabs[this->GetTag()],
                                                 std::shared_ptr<Material>(new Material(new Shader(Cube::DefaultShader_Path[0],
                                                                                                   Cube::DefaultShader_Path[1])))));
 }

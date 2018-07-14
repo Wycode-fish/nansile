@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <vector>
+#include <unordered_map>
 #include "VertexArray.hpp"
 #include "VertexBuffer.hpp"
 #include "VertexBufferLayout.hpp"
@@ -32,6 +33,8 @@ struct ModelElement
 
 struct ModelElement_Group
 {
+    static std::unordered_map<const char*, ModelElement_Group> ModelElement_Group_Prefabs;
+    
     void* m_VboData;
     unsigned int m_VboSize;
     VertexBufferLayout m_VboLayout;

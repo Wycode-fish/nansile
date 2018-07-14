@@ -49,8 +49,14 @@ void MaterialAttribs::Dimmer()
 
 const char* Material::DefaultShader_Path[] =
 {
+    "src/gl/shaders/test/default.vertex", "src/gl/shaders/test/default.fragment"
+};
+
+const char* Material::NoneTexShader_Path[] =
+{
     "src/gl/shaders/test/none.vertex", "src/gl/shaders/test/none.fragment"
 };
+
 
 Material::Material(Shader* shader, Texture* texture, MaterialAttribs* attribs)
 : m_Shader(shader), m_Texture(texture), m_Attribs(attribs)
@@ -60,5 +66,6 @@ Material::Material(Shader* shader, Texture* texture, MaterialAttribs* attribs)
 
 Material::~Material()
 {
-    
+    if (m_Shader!=NULL)
+        delete m_Shader;
 }

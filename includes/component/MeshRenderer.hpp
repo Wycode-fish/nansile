@@ -41,12 +41,14 @@ public:
     inline Model* GetModel() const { return m_Model; }
     inline std::shared_ptr<Material> GetMaterial() const { return m_Material; }
     inline Renderer* GetRenderer() const { return m_Renderer; }
+    inline bool& GetIsActive() { return m_IsActive; }
     
 public:
-    void Reload(ModelElement_Group mElement, Shader*& shader, Texture*& texture);
+    void Reload(ModelElement_Group mElement, Shader* shader, Texture* texture);
 private:
     Model* m_Model;
     std::shared_ptr<Material> m_Material;
     Renderer* m_Renderer;
+    bool m_IsActive;
 };
 #endif /* MeshRenderer_hpp */

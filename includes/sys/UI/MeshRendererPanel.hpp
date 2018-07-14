@@ -32,6 +32,8 @@ namespace gui {
     private:
         MeshRenderer* m_MeshRenderer;
         int m_CurrSelectedTexture;
+        bool m_TextureActive;
+        bool m_TextureActive_Selected;
     };
 };
 #endif /* MeshRendererPanel_hpp */

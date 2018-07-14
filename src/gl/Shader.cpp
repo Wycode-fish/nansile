@@ -19,6 +19,11 @@ Shader::Shader(const std::string& vsPath, const std::string& fsPath)
     CompileShaders(ParseShaders(vsPath, fsPath));
 }
 
+Shader::Shader(ShaderSources shaderSrc)
+{
+    GLCALL(m_RendererID =glCreateProgram());
+    CompileShaders(ParseShaders(shaderSrc.vsString, shaderSrc.fsString));
+}
 
 Shader::~Shader()
 {

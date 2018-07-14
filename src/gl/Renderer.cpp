@@ -42,10 +42,10 @@ void Renderer::Draw(Model& model) const
     GLCALL(glDrawElements(GL_TRIANGLES, model.GetCount(), GL_UNSIGNED_INT, nullptr));
 }
 
-//void Renderer::DrawOutLine(Model& model) const
-//{
-//    
-//}
+void Renderer::DrawLines(Model& model) const
+{
+    GLCALL(glDrawElements(GL_LINE_LOOP, model.GetCount(), GL_UNSIGNED_INT, nullptr));
+}
 
 void Renderer::Render(VertexArray& vao, VertexBuffer& vbo, VertexBufferLayout& layout, IndexBuffer& ibo, Shader& shader) const
 {

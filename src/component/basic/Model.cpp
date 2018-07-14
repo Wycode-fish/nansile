@@ -7,6 +7,22 @@
 //
 
 #include "Model.hpp"
+#include "Cube.hpp"
+#include <GLFW/glfw3.h>
+
+
+std::unordered_map<const char*, ModelElement_Group> ModelElement_Group::ModelElement_Group_Prefabs(
+{
+    {"Cube", {  Cube::DefaultModel_VertPos,
+                sizeof(float) * 8 * 4 * 6,
+                VertexBufferLayout(std::vector<LayoutElement>({
+                    {GL_FLOAT, 3, GL_FALSE},
+                    {GL_FLOAT, 2, GL_FALSE},
+                    {GL_FLOAT, 3, GL_FALSE}})),
+                Cube::DefaultModel_VertIdx, 6 * 6 }
+    },
+});
+
 
 Model::Model(const std::vector<VertexBuffer*> vbos, IndexBuffer* ibo)
 : m_Vbos(vbos), m_Vbo(NULL), m_Ibo(ibo)

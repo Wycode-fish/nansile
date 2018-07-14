@@ -52,6 +52,7 @@ class Material
 {
 public:
     static const char* DefaultShader_Path[2];
+    static const char* NoneTexShader_Path[2];
 public:
     Material(Shader*            shader      =   new Shader(Material::DefaultShader_Path[0], Material::DefaultShader_Path[1]),
              Texture*           texture     =   NULL,
@@ -62,7 +63,7 @@ public:
     inline Texture* GetTexture() const  { return m_Texture; }
     inline MaterialAttribs*         GetAttribs() const  { return m_Attribs; }
     
-    inline      void     SetShader   (Shader* shader)      { m_Shader = shader; }
+    inline      void     SetShader   (Shader* shader)      { Shader* temp = m_Shader; m_Shader = shader; delete temp; }
     inline      void     SetTexture  (Texture* texture)    { m_Texture = texture; }
 
 private:

@@ -18,12 +18,14 @@
 
 
 const char* ResourceManager::TexturePath = "res/images/";
+const char* ResourceManager::ShaderPath = "src/gl/shaders/";
 
 ResourceManager* ResourceManager::m_Instance = NULL;
 
 GAMEOBJECT_GENERATORS ResourceManager::m_Generators = { std::vector<const char*>(), std::vector<std::function<GameObject*()> >() };
 
 std::unordered_map<std::string, Texture* const> ResourceManager::m_Textures = std::unordered_map<std::string, Texture* const>();
+std::unordered_map<std::string, Shader* const> ResourceManager::m_Shaders = std::unordered_map<std::string, Shader* const>();
 
 
 ResourceManager* ResourceManager::GetInstance()
@@ -54,19 +56,11 @@ ResourceManager::ResourceManager()
 void ResourceManager::LoadMedia()
 {
     // TODO: load all media resources.
-//    for (auto & p : fs::directory_iterator(ResourceManager::TexturePath))
-//        std::cout << p << std::endl;
-    const char* res_path1 = "res/images/kilua.jpg";
-    const char* res_path2 = "res/images/dragonball.jpg";
-    const char* res_path3 = "res/images/gon.jpg";
+    ResourceManager::m_Textures.insert(std::make_pair(std::string("res/images/kilua.jpg"), new Texture("res/images/kilua.jpg")));
+    ResourceManager::m_Textures.insert(std::make_pair(std::string("res/images/dragonball.jpg"), new Texture("res/images/dragonball.jpg")));
+    ResourceManager::m_Textures.insert(std::make_pair(std::string("res/images/gon.jpg"), new Texture("res/images/gon.jpg")));
 
-    ResourceManager::m_Textures.insert(std::make_pair(std::string(res_path1), new Texture(res_path1)));
-    ResourceManager::m_Textures.insert(std::make_pair(std::string(res_path2), new Texture(res_path2)));
-    ResourceManager::m_Textures.insert(std::make_pair(std::string(res_path3), new Texture(res_path3)));
-
-//    ResourceManager::m_Textures[res_path1] = new Texture(res_path1);
-//    ResourceManager::m_Textures[res_path3] = new Texture(res_path3);
-//    ResourceManager::m_Textures[res_path2] = new Texture(res_path2);
+    
 }
 
 void ResourceManager::LoadGenerators()

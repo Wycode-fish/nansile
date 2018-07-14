@@ -96,6 +96,6 @@ namespace gui {
             
         }
         
-        
+        m_GameObjectPanel->OnUpdate();
     }
 }

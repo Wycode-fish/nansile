@@ -31,7 +31,7 @@ unsigned int DefaultIndexData[] =
 };
 
 MeshRenderer::MeshRenderer(GameObject* gameObject, ModelElement_Group mElement, const std::shared_ptr<Material> material)
-: m_Model(NULL), m_Material(material), m_Renderer(NULL), Component(gameObject, "Mesh Renderer")
+: m_Model(NULL), m_Material(material), m_Renderer(NULL), m_IsActive(true), Component(gameObject, "Mesh Renderer")
 {
     m_Model = new Model(mElement.m_VboData,
                         mElement.m_VboSize,
@@ -82,7 +82,11 @@ void MeshRenderer::Draw()
 //        std::cout<<"test "<<m_Material->GetTexture()->GetFilePath()<<std::endl;
     }
     m_Material->GetShader()->Use();
-    glDrawElements(GL_TRIANGLES, m_Model->GetCount(), GL_UNSIGNED_INT, nullptr);
+    if (m_IsActive)
+        m_Renderer->Draw(*m_Model);
+    else
+        m_Renderer->DrawLines(*m_Model);
+//    glDrawElements(GL_LINES, m_Model->GetCount(), GL_UNSIGNED_INT, nullptr);
 }
 
 MeshRenderer::~MeshRenderer()
@@ -93,7 +97,7 @@ MeshRenderer::~MeshRenderer()
         delete m_Renderer;
 }
 
-void MeshRenderer::Reload(ModelElement_Group mElement, Shader*& shader, Texture*& texture)
+void MeshRenderer::Reload(ModelElement_Group mElement, Shader* shader, Texture* texture)
 {
     m_Material->SetShader(shader);
     m_Material->SetTexture(texture);

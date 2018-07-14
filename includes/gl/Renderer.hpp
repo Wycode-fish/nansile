@@ -32,8 +32,9 @@ class Texture;
 
 class Renderer
 {
-private:
+public:
     void Draw(Model& model) const;
+    void DrawLines(Model& model) const;
 public:
     Renderer();
     ~Renderer();

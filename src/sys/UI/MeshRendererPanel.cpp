@@ -26,6 +26,7 @@ namespace gui {
     void MeshRendererPanel::OnRender()
     {
         ImGui::CollapsingHeader("MESH RENDERER");
+        ImGui::Checkbox("active", &m_MeshRenderer->GetIsActive());
         
         m_OnRender_MaterialEdit();
         
@@ -35,6 +36,16 @@ namespace gui {
     
     void MeshRendererPanel::OnUpdate()
     {
+        
+        if (m_TextureActive && !m_TextureActive_Selected)
+        {
+            m_MeshRenderer->GetMaterial()->SetShader(new Shader(Material::DefaultShader_Path[0], Material::DefaultShader_Path[1]));
+        }
+        else if (!m_TextureActive && m_TextureActive_Selected)
+        {
+            m_MeshRenderer->GetMaterial()->SetShader(new Shader(Material::NoneTexShader_Path[0], Material::NoneTexShader_Path[1]));
+        }
+        m_TextureActive = m_TextureActive_Selected;
 
     }
     
@@ -71,7 +82,7 @@ namespace gui {
                 texNames.push_back(str);
             }
             
-            texNames.push_back("Standard");
+            texNames.push_back("standard");
             ImGui::ListBox("", &m_CurrSelectedTexture, texNames.data(), map_size + 1);
             ImGui::SameLine(); ShowHelpMarker("select texture.");
             
@@ -79,8 +90,8 @@ namespace gui {
             {
                 const char* curr_selectedTextureName = texNames[m_CurrSelectedTexture];
                 auto curr_texture = m_MeshRenderer->GetMaterial()->GetTexture();
-                
-                if ( curr_texture!=NULL && strcmp(curr_selectedTextureName, "Standard")==0)
+
+                if ( curr_texture!=NULL && strcmp(curr_selectedTextureName, "standard")==0)
                     m_MeshRenderer->GetMaterial()->SetTexture(NULL);
                 
                 else if ( curr_texture==NULL ||
@@ -89,6 +100,8 @@ namespace gui {
                     m_MeshRenderer->GetMaterial()->SetTexture(Texture::GetTexture(curr_selectedTextureName));
                 }
             }
+            ImGui::SameLine(); ImGui::Spacing(); ImGui::SameLine();
+            ImGui::Checkbox("none", &m_TextureActive_Selected);
             ImGui::TreePop();
             
             for (int i=0; i<map_size; i++)
