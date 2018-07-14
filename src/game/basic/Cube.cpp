@@ -55,14 +55,6 @@ unsigned int Cube::DefaultModel_VertIdx[6 * 6] =
     20, 21, 22, 20, 22, 23      //bottom
 };
 
-//VertexBufferLayout Cube::DefaultModel_ElementLayout =
-//                            VertexBufferLayout(std::vector<LayoutElement>({
-//                                {GL_FLOAT, 3, GL_FALSE},
-//                                {GL_FLOAT, 2, GL_FALSE},
-//                                {GL_FLOAT, 3, GL_FALSE}}));
-//ModelElement_Group Cube::DefaultModel_ElementGroup = { Cube::DefaultModel_VertPos, sizeof(float) * 8 * 4 * 6, Cube::DefaultModel_ElementLayout,
-//    Cube::DefaultModel_VertIdx, 6 * 6 };
-
 const char* Cube::DefaultShader_Path[2] = {"src/gl/shaders/test/cube.vertex", "src/gl/shaders/test/cube.fragment"};
 
 Cube::Cube()
@@ -93,8 +85,8 @@ void Cube::MeshRendererBind()
 //        Cube::DefaultModel_VertIdx, 6 * 6 };
     
     AddComponent<MeshRenderer>(new MeshRenderer(this, ModelElement_Group::ModelElement_Group_Prefabs[this->GetTag()],
-                                                std::shared_ptr<Material>(new Material(new Shader(Cube::DefaultShader_Path[0],
-                                                                                                  Cube::DefaultShader_Path[1])))));
+                                                std::shared_ptr<Material>(new Material(new Shader(Material::DefaultShader_Path[0],
+                                                                                                  Material::DefaultShader_Path[1])))));
 }
 
 

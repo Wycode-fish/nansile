@@ -60,7 +60,7 @@ namespace gui {
                 delete objNames[i];
         }
         
-        ImGui::Text("Application average %.1f FPS", ImGui::GetIO().Framerate);
+        ImGui::Text("Application average %.2f FPS", ImGui::GetIO().Framerate);
 
         ImGui::End();
         

@@ -114,19 +114,28 @@ void MeshRenderer::ApplyLight(Light* light)
     glm::vec3 specular = light->GetAttribs()->m_Specular;
     glm::vec3 attenuation = light->GetAttribs()->m_Attenuation;
     glm::vec3 color = light->GetAttribs()->m_Color;
+    float intensity = light->GetAttribs()->m_Intensity;
+    
     
     glm::vec3 pos = light->GetTransform()->GetPosition();
+    glm::vec3 rot = light->GetTransform()->GetRotation();
     
     Shader* shaderPtr = m_Material->GetShader();
     shaderPtr->Use();
     shaderPtr->SetUniform3f("u_LightPos", pos.x, pos.y, pos.z);
+    shaderPtr->SetUniform3f("u_LightDirection", rot.x, rot.y, rot.z);
     shaderPtr->SetUniform3f("u_LightColor", color.x, color.y, color.z);
+    shaderPtr->SetUniform1i("u_LightType", light->GetType());
+    
+    
     shaderPtr->SetUniform3f("u_Light.ambient", ambient.x, ambient.y, ambient.z);
     shaderPtr->SetUniform3f("u_Light.diffuse", diffuse.x, diffuse.y, diffuse.z);
     shaderPtr->SetUniform3f("u_Light.specular", specular.x, specular.y, specular.z);
     shaderPtr->SetUniform1f("u_Light.attenuation_Kc", attenuation[ATTENUATION_KC]);
     shaderPtr->SetUniform1f("u_Light.attenuation_Kl", attenuation[ATTENUATION_KL]);
     shaderPtr->SetUniform1f("u_Light.attenuation_Kq", attenuation[ATTENUATION_KQ]);
+    shaderPtr->SetUniform1f("u_Light.intensity", intensity);
+    
 }
 
 void MeshRenderer::RenderPrepare()

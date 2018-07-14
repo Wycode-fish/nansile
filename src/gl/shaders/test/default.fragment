@@ -17,6 +17,7 @@ struct Light
             float       attenuation_Kc; // constant;
             float       attenuation_Kl; // linear;
             float       attenuation_Kq; // quadratic;
+            float       intensity;
 };
 
 
@@ -31,9 +32,12 @@ in          vec3        v_FragPos;
 uniform     sampler2D   u_Texture;
 uniform     int         u_TextureExist = 0;
 uniform     Material    u_Material;
+
 uniform     Light       u_Light;
-uniform     vec3        u_LightColor = vec3(1.0f,1.0f,1.0f);
+uniform     vec3        u_LightColor = vec3(1.0f, 1.0f, 1.0f);
 uniform     vec3        u_LightPos = vec3(0.0f, 0.0f, 0.0f);
+uniform     vec3        u_LightDirection = vec3(0.0f, 0.0f, -1.0f);
+uniform     int         u_LightType = 0;
 uniform     vec3        u_CameraPos;
 
 
@@ -54,18 +58,49 @@ vec3 get_ambient_color(vec3 curr_color,
 }
 
 vec3 get_diffuse_color(vec3 curr_color,
-                       vec3 light_pos, vec3 frag_pos, vec3 face_normal,
+                       vec3 light_pos, vec3 light_dir, int light_type,
+                       vec3 frag_pos, vec3 face_normal,
                        vec3 mat_diffuse, vec3 light_diffuse)
 {
-    float cosine = max( dot(normalize(light_pos - frag_pos), normalize(face_normal)), 0.0f);
+    float cosine;
+    if (light_type == 0)    // point light
+    {
+        cosine = max( dot(normalize(light_pos - frag_pos), normalize(face_normal)), 0.0f);
+    }
+    else if (light_type == 1)    // directional light
+    {
+        cosine = max( dot(normalize((-1.0f)*light_dir), normalize(face_normal)), 0.0f);
+        
+    }
+    else if (light_type == 2)    // spot light
+    {
+        cosine = max( dot(normalize(light_pos - frag_pos), normalize(face_normal)), 0.0f);
+    }
+    
     return curr_color * cosine * mat_diffuse * mat_diffuse;
 }
 
 vec3 get_specular_color(vec3 curr_color,
-                        vec3 light_pos, vec3 camera_pos, vec3 frag_pos, vec3 face_normal,
+                        vec3 light_pos, vec3 light_dir, int light_type,
+                        vec3 camera_pos, vec3 frag_pos, vec3 face_normal,
                         vec3 mat_specular, float mat_shiness, vec3 light_specular)
 {
-    vec3 reflect_direction      = reflect( normalize(frag_pos - light_pos), normalize(face_normal));
+    vec3 reflect_direction;
+    if (light_type == 0)    // point light
+    {
+        reflect_direction = reflect( normalize(frag_pos - light_pos), normalize(face_normal));
+    }
+    else if (light_type == 1)   // directional light
+    {
+        reflect_direction = reflect( normalize(light_dir), normalize(face_normal));
+
+    }
+    else if (light_type == 2)   // spot light
+    {
+        reflect_direction = reflect( normalize(light_dir), normalize(face_normal));
+        
+    }
+    
     vec3 view_direction         = normalize( camera_pos - frag_pos);
     float specular_cosine       = max( dot( reflect_direction, view_direction ), 0.0f );
     float specular_intensity    = pow( specular_cosine, mat_shiness);
@@ -77,9 +112,9 @@ vec3 get_specular_color(vec3 curr_color,
 // ========== MAIN ==========
 void main()
 {
-    float light_intensity = 5.0f;
+//    float light_intensity = 5.0f;
     float light2frag_dist = length(u_LightPos - v_FragPos);
-    float attenuation_factor = get_attenuation_factor(light_intensity,
+    float attenuation_factor = get_attenuation_factor(u_Light.intensity,
                                                       u_Light.attenuation_Kc, u_Light.attenuation_Kl, u_Light.attenuation_Kq,
                                                       light2frag_dist);
     
@@ -87,18 +122,20 @@ void main()
     if (u_TextureExist>0)
         color_with_light = texture(u_Texture, v_Tcs).xyz + u_LightColor;
     else
-        color_with_light = vec3(0.4f, 0.4f, 0.4f) + u_LightColor / light_intensity;
+        color_with_light = vec3(0.4f, 0.4f, 0.4f) + u_LightColor / u_Light.intensity;
 
     // Ambient Light
     vec3 ambient_light = get_ambient_color(color_with_light,
                                            u_Material.ambient, u_Light.ambient);
     // Diffuse Light
     vec3 diffuse_light = get_diffuse_color( color_with_light,
-                                           u_LightPos, v_FragPos, v_Normal,
+                                           u_LightPos, u_LightDirection, u_LightType,
+                                           v_FragPos, v_Normal,
                                            u_Material.diffuse, u_Light.diffuse);
     // Specular Light
     vec3 specular_light = get_specular_color( color_with_light,
-                                             u_LightPos, u_CameraPos, v_FragPos, v_Normal,
+                                             u_LightPos, u_LightDirection, u_LightType,
+                                             u_CameraPos, v_FragPos, v_Normal,
                                              u_Material.specular, u_Material.shiness, u_Light.specular);
 
     color = vec4(ambient_light + diffuse_light + specular_light, 1.0f) * attenuation_factor;
