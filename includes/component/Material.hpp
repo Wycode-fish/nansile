@@ -20,12 +20,14 @@ struct MaterialAttribs
     MaterialAttribs(glm::vec3 ambient = MaterialAttribs::Default_Ambient,
                     glm::vec3 diffuse = MaterialAttribs::Default_Diffuse,
                     glm::vec3 specular = MaterialAttribs::Default_Specular,
-                    float     shiness = MaterialAttribs::Default_Shiness);
+                    float     shiness = MaterialAttribs::Default_Shiness,
+                    float     transparency = MaterialAttribs::Default_Transparency);
     static glm::vec3 Default_Ambient;
     static glm::vec3 Default_Diffuse;
     static glm::vec3 Default_Specular;
     static float     Default_Shiness;
-
+    static float     Default_Transparency;
+    
     //----- SETTER -----//
     void ResetMatAttribs();
     
@@ -33,19 +35,23 @@ struct MaterialAttribs
     inline void SetMatDiffuse(const glm::vec3& diffuse) {m_Diffuse = diffuse;}
     inline void SetMatSpecular(const glm::vec3& specular) {m_Specular = specular;}
     inline void SetMatShiness(const float& shiness) {m_Shiness = shiness;}
+    inline void SetMatTransparency(const float& transparency) { m_Transparency = transparency;}
     
     inline glm::vec3& GetMatAmbientRef() { return m_Ambient; }
     inline glm::vec3& GetMatDiffuseRef() { return m_Diffuse; }
     inline glm::vec3& GetMatSpecularRef() { return m_Specular; }
     inline float& GetMatShinessRef() { return m_Shiness; }
+    inline float& GetMatTransparencyRef() { return m_Transparency; }
     
     void Brighter();
     void Dimmer();
+    
     //----- PROPERTIES -----//
     glm::vec3 m_Ambient;
     glm::vec3 m_Diffuse;
     glm::vec3 m_Specular;
     float m_Shiness;
+    float m_Transparency;
 };
 
 class Material

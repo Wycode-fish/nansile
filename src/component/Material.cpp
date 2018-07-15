@@ -12,9 +12,10 @@ glm::vec3 MaterialAttribs::Default_Ambient = glm::vec3(0.3, 0.3, 0.31);
 glm::vec3 MaterialAttribs::Default_Diffuse = glm::vec3(0.3, 0.3, 0.31);
 glm::vec3 MaterialAttribs::Default_Specular = glm::vec3(0.5, 0.5, 0.5);
 float MaterialAttribs::Default_Shiness = 128.0f;
+float MaterialAttribs::Default_Transparency = 1.0f;
 
-MaterialAttribs::MaterialAttribs(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float shiness)
-: m_Ambient(ambient), m_Diffuse(diffuse), m_Specular(specular), m_Shiness(shiness)
+MaterialAttribs::MaterialAttribs(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float shiness, float transparency)
+: m_Ambient(ambient), m_Diffuse(diffuse), m_Specular(specular), m_Shiness(shiness), m_Transparency(transparency)
 {
 }
 
@@ -24,6 +25,7 @@ void MaterialAttribs::ResetMatAttribs()
     m_Diffuse = Default_Diffuse;
     m_Specular = Default_Specular;
     m_Shiness = Default_Shiness;
+    m_Transparency = Default_Transparency;
 }
 
 void MaterialAttribs::Brighter()

@@ -59,6 +59,8 @@ namespace gui {
                                 glm::value_ptr(m_MeshRenderer->GetMaterial()->GetAttribs()->GetMatDiffuseRef()), 0.0f, 1.0f);
             ImGui::SliderFloat3("specular", glm::value_ptr(m_MeshRenderer->GetMaterial()->GetAttribs()->GetMatSpecularRef()), 0.0f, 1.0f);
             ImGui::SliderFloat("shiness", &m_MeshRenderer->GetMaterial()->GetAttribs()->GetMatShinessRef(), 0.0f, 256.0f);
+            ImGui::SliderFloat("transparency", &m_MeshRenderer->GetMaterial()->GetAttribs()->GetMatTransparencyRef(), 0.0f, 1.0f);
+
             if (ImGui::Button("reset"))
             {
                 m_MeshRenderer->GetMaterial()->GetAttribs()->ResetMatAttribs();

@@ -7,6 +7,7 @@ struct Material
             vec3        diffuse;
             vec3        specular;
             float       shiness;
+            float       transparency;
 };
 
 struct Light
@@ -114,9 +115,9 @@ void main()
 {
 //    float light_intensity = 5.0f;
     float light2frag_dist = length(u_LightPos - v_FragPos);
-    float attenuation_factor = get_attenuation_factor(u_Light.intensity,
-                                                      u_Light.attenuation_Kc, u_Light.attenuation_Kl, u_Light.attenuation_Kq,
-                                                      light2frag_dist);
+    float attenuation_factor = (u_LightType==1)?1.0f:get_attenuation_factor(u_Light.intensity,
+                                                                            u_Light.attenuation_Kc, u_Light.attenuation_Kl, u_Light.attenuation_Kq,
+                                                                            light2frag_dist);
     
     vec3 color_with_light = vec3(0.f, 0.f, 0.f);
     if (u_TextureExist>0)
@@ -138,6 +139,6 @@ void main()
                                              u_CameraPos, v_FragPos, v_Normal,
                                              u_Material.specular, u_Material.shiness, u_Light.specular);
 
-    color = vec4(ambient_light + diffuse_light + specular_light, 1.0f) * attenuation_factor;
+    color = vec4((ambient_light + diffuse_light + specular_light) * attenuation_factor, u_Material.transparency);
 }
 

@@ -116,7 +116,6 @@ void MeshRenderer::ApplyLight(Light* light)
     glm::vec3 color = light->GetAttribs()->m_Color;
     float intensity = light->GetAttribs()->m_Intensity;
     
-    
     glm::vec3 pos = light->GetTransform()->GetPosition();
     glm::vec3 rot = light->GetTransform()->GetRotation();
     
@@ -135,7 +134,6 @@ void MeshRenderer::ApplyLight(Light* light)
     shaderPtr->SetUniform1f("u_Light.attenuation_Kl", attenuation[ATTENUATION_KL]);
     shaderPtr->SetUniform1f("u_Light.attenuation_Kq", attenuation[ATTENUATION_KQ]);
     shaderPtr->SetUniform1f("u_Light.intensity", intensity);
-    
 }
 
 void MeshRenderer::RenderPrepare()
@@ -157,11 +155,14 @@ void MeshRenderer::RenderPrepare()
     glm::vec3 mat_diffuse = attribs->m_Diffuse;
     glm::vec3 mat_specular = attribs->m_Specular;
     float mat_shiness = attribs->m_Shiness;
+    float transparency = attribs->m_Transparency;
 
     shaderPtr->SetUniform3f("u_Material.ambient",  mat_ambient.x, mat_ambient.y, mat_ambient.z);
     shaderPtr->SetUniform3f("u_Material.diffuse",  mat_diffuse.x, mat_diffuse.y, mat_diffuse.z);
     shaderPtr->SetUniform3f("u_Material.specular", mat_specular.x, mat_specular.y, mat_specular.z);
     shaderPtr->SetUniform1f("u_Material.shiness", mat_shiness);
+    shaderPtr->SetUniform1f("u_Material.transparency", transparency);
+
 }
 
 
