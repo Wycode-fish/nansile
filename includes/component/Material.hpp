@@ -43,6 +43,12 @@ struct MaterialAttribs
     inline float& GetMatShinessRef() { return m_Shiness; }
     inline float& GetMatTransparencyRef() { return m_Transparency; }
     
+    inline glm::vec3 GetMatAmbient() const { return m_Ambient; }
+    inline glm::vec3 GetMatDiffuse() const { return m_Diffuse; }
+    inline glm::vec3 GetMatSpecular() const { return m_Specular; }
+    inline float GetMatShiness() const { return m_Shiness; }
+    inline float GetMatTransparency() const{ return m_Transparency; }
+    
     void Brighter();
     void Dimmer();
     

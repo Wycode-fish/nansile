@@ -102,7 +102,10 @@ void GameObject::m_GlobalScaleUpdate()
 
 void GameObject::Update()
 {
-
+    for (Component* component : GetComponents())
+    {
+        component->Update();
+    }
 }
 
 void GameObject::OnRender()

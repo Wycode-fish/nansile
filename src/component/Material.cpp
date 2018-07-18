@@ -51,12 +51,12 @@ void MaterialAttribs::Dimmer()
 
 const char* Material::DefaultShader_Path[] =
 {
-    "src/gl/shaders/test/default.vertex", "src/gl/shaders/test/default.fragment"
+    "src/gl/shaders/basic/default.vertex", "src/gl/shaders/basic/default.fragment"
 };
 
 const char* Material::NoneTexShader_Path[] =
 {
-    "src/gl/shaders/test/none.vertex", "src/gl/shaders/test/none.fragment"
+    "src/gl/shaders/basic/none.vertex", "src/gl/shaders/basic/none.fragment"
 };
 
 

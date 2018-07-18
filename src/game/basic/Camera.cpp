@@ -40,6 +40,7 @@ void Camera::Update()
     m_MouseUpdate();
     m_ViewMatUpdate();
     m_ProjMatUpdate();
+    
 }
 
 void Camera::m_KeyUpdate()

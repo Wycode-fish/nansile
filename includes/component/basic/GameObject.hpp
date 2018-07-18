@@ -21,7 +21,6 @@ extern float VWidth;
 extern float VHeight;
 extern float VHWRatio;
 
-class MeshRenderer;
 
 class GameObject
 {
@@ -52,7 +51,7 @@ public:
     
 public:
     template<typename T>
-    T* GetComponent()
+    T* GetComponent() const
     {
         for(int i=0; i<m_Components.size(); i++)
         {

@@ -27,9 +27,9 @@ public:
     void        Update();
     
 public:
-    inline      glm::vec3       GetPosition()                   {return m_Position;}
-    inline      glm::vec3       GetRotation()                   {return m_Rotation;}
-    inline      glm::vec3       GetScale()                      {return m_Scale;}
+    inline      glm::vec3       GetPosition()  const            {return m_Position;}
+    inline      glm::vec3       GetRotation()  const            {return m_Rotation;}
+    inline      glm::vec3       GetScale()     const            {return m_Scale;}
     inline      void            SetPosition(glm::vec3 pos)      { m_Position = pos;}
     inline      void            SetRotation(glm::vec3 rot)      { m_Rotation = rot;}
     inline      void            SetScale(glm::vec3 scale)       { m_Scale = scale;}

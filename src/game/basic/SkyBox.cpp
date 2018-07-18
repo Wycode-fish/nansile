@@ -61,7 +61,7 @@ unsigned int SkyBox::DefaultSkyBox_Model_VertIdx[] =
 
 const char* SkyBox::DefaultSkyBox_Shader_Path[2] =
 {
-    "src/gl/shaders/test/skybox.vertex", "src/gl/shaders/test/skybox.fragment"
+    "src/gl/shaders/basic/skybox.vertex", "src/gl/shaders/basic/skybox.fragment"
 };
 
 SkyBox::SkyBox(std::vector<std::string>& imgPaths)

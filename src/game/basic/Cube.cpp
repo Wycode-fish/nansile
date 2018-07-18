@@ -55,7 +55,7 @@ unsigned int Cube::DefaultModel_VertIdx[6 * 6] =
     20, 21, 22, 20, 22, 23      //bottom
 };
 
-const char* Cube::DefaultShader_Path[2] = {"src/gl/shaders/test/cube.vertex", "src/gl/shaders/test/cube.fragment"};
+const char* Cube::DefaultShader_Path[2] = {"src/gl/shaders/basic/cube.vertex", "src/gl/shaders/basic/cube.fragment"};
 
 Cube::Cube()
 : GameObject("Cube")
@@ -71,7 +71,7 @@ void Cube::MeshRendererBind()
 //    ModelElement_Group modelElement = { Cube::DefaultModel_VertPos, sizeof(float) * 6 * 4 * 6, layout,
 //                                        Cube::DefaultModel_VertIdx, 6 * 6 };
 //
-////    std::shared_ptr<Shader> modelShader(new Shader("src/gl/shaders/test/none.vertex", "src/gl/shaders/test/none.fragment"));
+////    std::shared_ptr<Shader> modelShader(new Shader("src/gl/shaders/basic/none.vertex", "src/gl/shaders/basic/none.fragment"));
 //    AddComponent<MeshRenderer>(new MeshRenderer(this, modelElement,
 //                                                std::shared_ptr<Material>(new Material(new Shader(Cube::DefaultShader_Path[0],
 //                                                                                                  Cube::DefaultShader_Path[1])))));
@@ -97,10 +97,9 @@ Cube::~Cube()
 {
 }
 
-void Cube::Update()
-{
-    
-}
+//void Cube::Update()
+//{
+//}
 
 void Cube::OnRender()
 {

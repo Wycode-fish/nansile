@@ -13,10 +13,11 @@ COMPONENT_GENERATORS Component::m_Generators = { std::vector<const char*>(), std
 const char* const Component::AvailableComponents[] =
 {
     "Mesh Renderer",
-    "Collider"
+    "Collider",
+    "Lua Script"
 };
 
-int Component::AvailableComponentsCount = 2;
+int Component::AvailableComponentsCount = 3;
 
 Component::Component(std::string tag)
 : m_Tag(tag), m_GameObject(NULL)

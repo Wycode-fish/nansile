@@ -18,14 +18,12 @@ class Cube: public GameObject
 public:
     static float DefaultModel_VertPos[6 * 4 * 8];
     static unsigned int DefaultModel_VertIdx[6 * 6];
-//    static VertexBufferLayout DefaultModel_ElementLayout;
-//    static ModelElement_Group DefaultModel_ElementGroup;
     static const char* DefaultShader_Path[2];
 public:
     Cube();
     ~Cube();
     void MeshRendererBind();
-    void Update();
+//    void Update();
     void OnRender();
 
 private:
