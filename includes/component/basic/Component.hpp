@@ -50,6 +50,7 @@ public:
 public:
     inline      void                    SetTag(const char* tag) { m_Tag = tag; }
     inline      std::string             GetTag()                { return m_Tag; }
+    inline      const char*             GetTagCstr()    const   { return m_Tag.c_str(); }
     inline      GameObject*             GetGameObject()         { return m_GameObject; }
     
 //public:

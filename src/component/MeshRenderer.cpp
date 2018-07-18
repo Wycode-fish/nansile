@@ -30,7 +30,7 @@ unsigned int DefaultIndexData[] =
     2, 3, 0
 };
 
-MeshRenderer::MeshRenderer(GameObject* gameObject, ModelElement_Group mElement, const std::shared_ptr<Material> material)
+MeshRenderer::MeshRenderer(GameObject* gameObject, ModelElement_Group mElement, Material* material)
 : m_Model(NULL), m_Material(material), m_Renderer(NULL), m_IsActive(true), Component(gameObject, "Mesh Renderer")
 {
     m_Model = new Model(mElement.m_VboData,
@@ -40,7 +40,7 @@ MeshRenderer::MeshRenderer(GameObject* gameObject, ModelElement_Group mElement, 
     m_Renderer = new Renderer();
 }
 
-MeshRenderer::MeshRenderer(GameObject* gameObject, const std::vector<ModelElement> elements, const std::shared_ptr<Material> material)
+MeshRenderer::MeshRenderer(GameObject* gameObject, const std::vector<ModelElement> elements, Material* material)
 : m_Model(NULL), m_Material(material), m_Renderer(NULL), Component(gameObject, "Mesh Renderer")
 {
     ModelInit(elements);

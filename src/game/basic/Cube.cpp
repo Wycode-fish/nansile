@@ -85,8 +85,8 @@ void Cube::MeshRendererBind()
 //        Cube::DefaultModel_VertIdx, 6 * 6 };
     
     AddComponent<MeshRenderer>(new MeshRenderer(this, ModelElement_Group::ModelElement_Group_Prefabs[this->GetTag()],
-                                                std::shared_ptr<Material>(new Material(new Shader(Material::DefaultShader_Path[0],
-                                                                                                  Material::DefaultShader_Path[1])))));
+                                                new Material(new Shader(Material::DefaultShader_Path[0],
+                                                           Material::DefaultShader_Path[1]))));
 }
 
 

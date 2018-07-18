@@ -26,9 +26,9 @@ class Light;
 class MeshRenderer: public Component
 {
 public:
-    MeshRenderer(GameObject* gameObject, const std::vector<ModelElement> elements, const std::shared_ptr<Material> material = std::shared_ptr<Material>(new Material()));
+    MeshRenderer(GameObject* gameObject, const std::vector<ModelElement> elements, Material* material = new Material());
     
-    MeshRenderer(GameObject* gameObject, ModelElement_Group mElement, const std::shared_ptr<Material> material = std::shared_ptr<Material>(new Material()));
+    MeshRenderer(GameObject* gameObject, ModelElement_Group mElement, Material* material = new Material());
     ~MeshRenderer();
     
     void ModelInit(const std::vector<ModelElement>& elements);
@@ -39,7 +39,7 @@ public:
     void Render();
     
     inline Model* GetModel() const { return m_Model; }
-    inline std::shared_ptr<Material> GetMaterial() const { return m_Material; }
+    inline Material* GetMaterial() const { return m_Material; }
     inline Renderer* GetRenderer() const { return m_Renderer; }
     inline bool& GetIsActive() { return m_IsActive; }
     
@@ -47,7 +47,7 @@ public:
     void Reload(ModelElement_Group mElement, Shader* shader, Texture* texture);
 private:
     Model* m_Model;
-    std::shared_ptr<Material> m_Material;
+    Material* m_Material;
     Renderer* m_Renderer;
     bool m_IsActive;
 };

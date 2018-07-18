@@ -78,7 +78,7 @@ void SkyBox::MeshRendererBind()
         SkyBox::DefaultSkyBox_Model_VertIdx, 6 * 6 };
     
     AddComponent<MeshRenderer>(new MeshRenderer(this, modelElement,
-                                                std::shared_ptr<Material>(new Material(new Shader(SkyBox::DefaultSkyBox_Shader_Path[0], SkyBox::DefaultSkyBox_Shader_Path[1]), new CubeMap(m_ImgPaths)))));
+                                                new Material(new Shader(SkyBox::DefaultSkyBox_Shader_Path[0], SkyBox::DefaultSkyBox_Shader_Path[1]), new CubeMap(m_ImgPaths))));
 }
 
 SkyBox::~SkyBox()
