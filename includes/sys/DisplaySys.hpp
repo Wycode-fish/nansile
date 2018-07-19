@@ -14,6 +14,7 @@
 #include <GLFW/glfw3.h>
 
 #include "System.h"
+#include "Timer.hpp"
 
 class Renderer;
 class Camera;
@@ -22,6 +23,7 @@ class DisplaySys: public System
 {
 public:
     static Camera* Main_Camera;
+    static Timer   MsPFTimer;
 
 private:
     int height;

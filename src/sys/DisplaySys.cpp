@@ -14,6 +14,7 @@
 #include "Camera.hpp"
 
 Camera* DisplaySys::Main_Camera = new Camera();
+Timer   DisplaySys::MsPFTimer = Timer::DurationClock(1000.0f/60.0f);
 
 DisplaySys::DisplaySys(int h, int w, const char* t)
 : height(h), width(w), title(t), window(NULL), renderer(NULL)

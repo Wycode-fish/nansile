@@ -20,7 +20,12 @@ Texture* Texture::GetTexture(const char* filePath)
         return ResourceManager::GetTextureResourceMap()[filePath];
     }
     else
-        return new Texture(filePath);
+    {
+        Texture* texture = new Texture(filePath);
+        ResourceManager::GetTextureResourceMap().insert(std::make_pair(filePath, texture));
+        return texture;
+    }
+    return NULL;
 }
 
 Texture::Texture()

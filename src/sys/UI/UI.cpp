@@ -9,6 +9,8 @@
 #include "UI.hpp"
 #include "MeshRenderer.hpp"
 #include "MeshRendererPanel.hpp"
+#include "LuaScript.hpp"
+#include "LuaScriptPanel.hpp"
 
 namespace gui {
     
@@ -28,7 +30,7 @@ namespace gui {
         ImGui::NewFrame();
     }
     
-    void GuiSys::Update()
+    void GuiSys::EndFrame()
     {
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -55,6 +57,11 @@ namespace gui {
 
         ComponentPanel::Register<MeshRendererPanel, MeshRenderer>("Mesh Renderer");
         if (ComponentPanel::GetPanelGenerators()["Mesh Renderer"] == nullptr)
+        {
+            std::cout<<"Add failed."<<std::endl;
+        }
+        ComponentPanel::Register<LuaScriptPanel, LuaScript>("Lua Script");
+        if (ComponentPanel::GetPanelGenerators()["Lua Script"] == nullptr)
         {
             std::cout<<"Add failed."<<std::endl;
         }

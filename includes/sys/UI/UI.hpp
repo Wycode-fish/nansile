@@ -22,7 +22,7 @@ namespace gui {
         ~GuiSys();
     public:
         void NewFrame();
-        void Update();
+        void EndFrame();
     private:
         static GuiSys* m_Instance;
     private:

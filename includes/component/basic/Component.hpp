@@ -53,6 +53,8 @@ public:
     inline      const char*             GetTagCstr()    const   { return m_Tag.c_str(); }
     inline      GameObject*             GetGameObject()         { return m_GameObject; }
     
+public:
+    inline      void                    SetGameObject(GameObject* gameObject)         { m_GameObject = gameObject; }
 //public:
 //    template<typename T>
 //    static void Register(const char* componentName)

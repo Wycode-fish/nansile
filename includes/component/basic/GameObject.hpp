@@ -66,6 +66,10 @@ public:
     void AddComponent(T* component)
     {
         Component* temp = dynamic_cast<Component*>(component);
+        if (temp->GetGameObject() == nullptr)
+        {
+            temp->SetGameObject(this);
+        }
         if (temp!=NULL)
             m_Components.push_back(temp);
         else

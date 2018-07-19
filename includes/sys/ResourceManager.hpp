@@ -19,6 +19,7 @@
 class Texture;
 class Shader;
 class GameObject;
+class LuaScript;
 
 
 struct GAMEOBJECT_GENERATORS
@@ -41,11 +42,11 @@ public:
   
 private:
     static std::unordered_map<std::string, Texture* const> m_Textures;
-    static std::unordered_map<std::string, Shader* const> m_Shaders;
+    static std::unordered_map<std::string, LuaScript* const> m_LuaScripts;
 public:
     static inline GAMEOBJECT_GENERATORS GetGenerators() { return m_Generators; }
     static inline std::unordered_map<std::string, Texture* const> GetTextureResourceMap() { return m_Textures; }
-    static inline std::unordered_map<std::string, Shader* const> GetShadereResourceMap() { return m_Shaders; }
+    static inline std::unordered_map<std::string, LuaScript* const> GetLuaScriptResourceMap() { return m_LuaScripts; }
 
 private:
 //    static std::vector<std::pair<const char*, OBJ_GENERATOR> > m_Generators;
@@ -57,6 +58,7 @@ private:
     
     void LoadMedia();
     void LoadGenerators();
+    void LoadScript();
     
 public:
     template<typename T>

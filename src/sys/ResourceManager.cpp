@@ -12,6 +12,9 @@
 #include "Camera.hpp"
 #include <iostream>
 #include "Texture.hpp"
+#include "LuaScript.hpp"
+#include "Shader.hpp"
+
 //#include <filesystem>
 //
 //namespace fs = std::filesystem;
@@ -25,7 +28,7 @@ ResourceManager* ResourceManager::m_Instance = NULL;
 GAMEOBJECT_GENERATORS ResourceManager::m_Generators = { std::vector<const char*>(), std::vector<std::function<GameObject*()> >() };
 
 std::unordered_map<std::string, Texture* const> ResourceManager::m_Textures = std::unordered_map<std::string, Texture* const>();
-std::unordered_map<std::string, Shader* const> ResourceManager::m_Shaders = std::unordered_map<std::string, Shader* const>();
+std::unordered_map<std::string, LuaScript* const> ResourceManager::m_LuaScripts = std::unordered_map<std::string, LuaScript* const>();
 
 
 ResourceManager* ResourceManager::GetInstance()
@@ -43,6 +46,16 @@ void ResourceManager::Init()
 
 ResourceManager::~ResourceManager()
 {
+    for (auto pair: m_Textures)
+    {
+        if (pair.second != NULL)
+            delete pair.second;
+    }
+    for (auto pair: m_LuaScripts)
+    {
+        if (pair.second != NULL)
+            delete pair.second;
+    }
     if (m_Instance!=NULL)
         delete m_Instance;
 }
@@ -56,11 +69,15 @@ ResourceManager::ResourceManager()
 void ResourceManager::LoadMedia()
 {
     // TODO: load all media resources.
-    ResourceManager::m_Textures.insert(std::make_pair(std::string("res/images/kilua.jpg"), new Texture("res/images/kilua.jpg")));
-    ResourceManager::m_Textures.insert(std::make_pair(std::string("res/images/dragonball.jpg"), new Texture("res/images/dragonball.jpg")));
-    ResourceManager::m_Textures.insert(std::make_pair(std::string("res/images/gon.jpg"), new Texture("res/images/gon.jpg")));
+    ResourceManager::m_Textures.insert(std::make_pair(std::string(TexturePath)+"kilua.jpg", new Texture("res/images/kilua.jpg")));
+    ResourceManager::m_Textures.insert(std::make_pair(std::string(TexturePath)+"dragonball.jpg", new Texture("res/images/dragonball.jpg")));
+    ResourceManager::m_Textures.insert(std::make_pair(std::string(TexturePath)+"gon.jpg", new Texture("res/images/gon.jpg")));
+}
 
-    
+void ResourceManager::LoadScript()
+{
+    // TODO: load all script resources.
+    ResourceManager::m_LuaScripts.insert(std::make_pair("SpinningCube", new LuaScript(nullptr, "src/game/script/test.lua", "SpinningCube")));
 }
 
 void ResourceManager::LoadGenerators()
