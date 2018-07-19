@@ -18,7 +18,6 @@ class Texture
 {
 public:
     static Texture* GetTexture(const char* filePath);
-    Texture(const char* filePath);
     Texture();
     virtual ~Texture();
     virtual void Bind(unsigned int slot=0);
@@ -28,6 +27,7 @@ public:
     inline unsigned int GetHeight() { return m_Height; }
     inline const char* GetFilePath() { return m_FilePath; }
 private:
+    Texture(const char* filePath);
     unsigned int m_RendererID;
     unsigned char* m_LocalBuffer;
     const char* m_FilePath;

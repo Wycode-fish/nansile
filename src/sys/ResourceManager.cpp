@@ -69,9 +69,14 @@ ResourceManager::ResourceManager()
 void ResourceManager::LoadMedia()
 {
     // TODO: load all media resources.
-    ResourceManager::m_Textures.insert(std::make_pair(std::string(TexturePath)+"kilua.jpg", new Texture("res/images/kilua.jpg")));
-    ResourceManager::m_Textures.insert(std::make_pair(std::string(TexturePath)+"dragonball.jpg", new Texture("res/images/dragonball.jpg")));
-    ResourceManager::m_Textures.insert(std::make_pair(std::string(TexturePath)+"gon.jpg", new Texture("res/images/gon.jpg")));
+    ResourceManager::m_Textures.insert(std::make_pair(std::string(TexturePath)+"kilua.jpg",
+                                                      Texture::GetTexture("res/images/kilua.jpg")));
+    
+    ResourceManager::m_Textures.insert(std::make_pair(std::string(TexturePath)+"dragonball.jpg",
+                                                      Texture::GetTexture("res/images/dragonball.jpg")));
+    
+    ResourceManager::m_Textures.insert(std::make_pair(std::string(TexturePath)+"gon.jpg",
+                                                      Texture::GetTexture("res/images/gon.jpg")));
 }
 
 void ResourceManager::LoadScript()

@@ -22,7 +22,7 @@ Texture* Texture::GetTexture(const char* filePath)
     else
     {
         Texture* texture = new Texture(filePath);
-        ResourceManager::GetTextureResourceMap().insert(std::make_pair(filePath, texture));
+//        ResourceManager::GetTextureResourceMap().insert(std::make_pair(filePath, texture));
         return texture;
     }
     return NULL;
