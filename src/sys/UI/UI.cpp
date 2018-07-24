@@ -53,7 +53,7 @@ namespace gui {
         ImGui_ImplGlfw_InitForOpenGL(window, false);
         ImGui::StyleColorsDark();
         
-        std::cout<<"regiester start."<<std::endl;
+        std::cout<<"register start."<<std::endl;
 
         ComponentPanel::Register<MeshRendererPanel, MeshRenderer>("Mesh Renderer");
         if (ComponentPanel::GetPanelGenerators()["Mesh Renderer"] == nullptr)

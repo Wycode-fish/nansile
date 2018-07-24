@@ -13,7 +13,6 @@
 #include <iostream>
 #include "Texture.hpp"
 #include "LuaScript.hpp"
-#include "Shader.hpp"
 
 //#include <filesystem>
 //

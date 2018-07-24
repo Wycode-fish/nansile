@@ -13,6 +13,7 @@
 #include <string>
 #include <unordered_map>
 #include "glm.hpp"
+#include "MetaData.hpp"
 
 struct ShaderSources
 {
@@ -41,6 +42,10 @@ private:
 private:
     unsigned int m_RendererID;
     std::unordered_map<std::string, unsigned int> m_LocationCache;
+    
+public:
+    DECLARE_META(Shader);
 };
+
 
 #endif /* Shader_hpp */

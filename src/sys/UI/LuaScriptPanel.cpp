@@ -27,7 +27,7 @@ namespace gui {
     void LuaScriptPanel::OnRender()
     {
         ImGui::CollapsingHeader(m_LuaScript->GetComponentTag());
-        
+        ImGui::Text(m_LuaScript->GetFilePath());
     }
     
     void LuaScriptPanel::OnUpdate()
