@@ -18,25 +18,23 @@
 
 /*          Declare MetaData         */
 #define     DECLARE_META( TYPE ) \
-\
-static rttr::ReType<TYPE>::type* NULL_CAST(); \
-static void RegisterMeta(); \
-static void AddMember(const char* name, const unsigned long& offset, rttr::MetaData* metaData)
+static      rttr::ReType<TYPE>::type*    NULL_CAST(); \
+static      void                         RegisterMetaMember(); \
+static      void                         AddMember( const char* name, \
+                                                    const unsigned long& offset, \
+                                                    rttr::MetaData* metaData)
 
 /*          Define MetaData         */
 #define     DEFINE_META( TYPE )\
-\
 rttr::MetaCreator<rttr::ReType<TYPE>::type> NAME_GENERATOR()( #TYPE, sizeof(TYPE)); \
 rttr::ReType<TYPE>::type* TYPE::NULL_CAST() { return reinterpret_cast<rttr::ReType<TYPE>::type*>(NULL); } \
+\
 void TYPE::AddMember(const char* name, const unsigned long& offset, rttr::MetaData* metaData)\
 {\
     rttr::MetaCreator<rttr::ReType<TYPE>::type >::AddMember( name, offset, metaData);\
 }\
 \
-void TYPE::RegisterMeta()
-//template<>\
-//void rttr::MetaCreator< rttr::ReType<TYPE>::type >::RegisterMeta() { TYPE::RegisterMeta(); } \
-
+void TYPE::RegisterMetaMember()
 
 /*          Get MetaData by String/Object       */
 #define     META_BYSTR( NAME )        rttr::MetaManager::Get(NAME)
@@ -47,9 +45,11 @@ void TYPE::RegisterMeta()
 #define     ADD_MEMBER( VAR_NAME ) \
 AddMember( #VAR_NAME, (unsigned long)(&(NULL_CAST()->VAR_NAME)), META_BYOBJ(NULL_CAST()->VAR_NAME))
 
+
 namespace rttr {
     
     //========= MetaData ==========
+    
     class Member;
     class MetaData
     {
@@ -156,7 +156,7 @@ namespace rttr {
     public:
         static void Init(const char* name, unsigned size);
         static MetaData* Get();
-        static void RegisterMeta();
+        static void RegisterMetaMember();
         static void AddMember(const char* name, const unsigned long& offset, MetaData* metaData);
     private:
         static MetaData m_MetaData;
@@ -179,10 +179,10 @@ namespace rttr {
     }
     
     template<class T>
-    void MetaCreator<T>::RegisterMeta()
+    void MetaCreator<T>::RegisterMetaMember()
     {
         //        MetaManager::RegisterMeta(&m_MetaData);
-        ReType<T>::type::RegisterMeta();
+        ReType<T>::type::RegisterMetaMember();
     }
     
     template<class T>

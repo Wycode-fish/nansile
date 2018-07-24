@@ -32,44 +32,7 @@ namespace rttr {
     
     
     //========= MetaCreator ==========
-
-//    template<class T>
-//    MetaData MetaCreator<T>::m_MetaData;
-//    
-//    template<class T>
-//    MetaData* MetaCreator<T>::Get()
-//    {
-//        return &m_MetaData;
-//    }
-//    
-//    template<class T>
-//    void MetaCreator<T>::AddMember(const char* name,
-//                                   const unsigned long& offset,
-//                                   MetaData* metaData)
-//    {
-//        m_MetaData.GetMembers().push_back(new Member(name, offset, metaData));
-//    }
-//
-//    template<typename T>
-//    void MetaCreator<T>::RegisterMeta()
-//    {
-////        MetaManager::RegisterMeta(&m_MetaData);
-//        rttr::ReType<T>::type::RegisterMeta();
-//    }
-//    
-//    template<class T>
-//    MetaCreator<T>::MetaCreator(const char* name, unsigned size)
-//    {
-//        Init(name, size);
-//        MetaManager::RegisterMeta(&m_MetaData);
-//
-//    }
-//    
-//    template<class T>
-//    void MetaCreator<T>::Init(const char* name, unsigned size)
-//    {
-//        Get()->Init(name, size);
-//    }
+    // template class defined in header
     
     
     
@@ -92,36 +55,9 @@ namespace rttr {
     
     
     //========= ReType ==========
-    
-//    template<typename T>
-//    struct ReType<const T>
-//    {
-//        typedef typename ReType<T>::type type;
-//    };
-//    
-//    template<typename T>
-//    struct ReType<T&>
-//    {
-//        typedef typename ReType<T>::type type;
-//    };
-//    
-//    template<typename T>
-//    struct ReType<const T&>
-//    {
-//        typedef typename ReType<T>::type type;
-//    };
-//    
-//    template<typename T>
-//    struct ReType<T&&>
-//    {
-//        typedef typename ReType<T>::type type;
-//    };
-//    
-//    template<typename T>
-//    struct ReType<const T*>
-//    {
-//        typedef typename ReType<T*>::type type;
-//    };
+    // template struct defined in header
+
+
     
     
     //========= Member ==========
