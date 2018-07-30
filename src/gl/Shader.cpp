@@ -13,6 +13,12 @@
 #include <iostream>
 #include <sstream>
 
+DEFINE_META(Shader)
+{
+    ADD_MEMBER(m_RendererID);
+    ADD_MEMBER(m_LocationCache);
+}
+
 Shader::Shader(const std::string& vsPath, const std::string& fsPath)
 {
     GLCALL(m_RendererID =glCreateProgram());

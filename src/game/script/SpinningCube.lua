@@ -1,12 +1,3 @@
-test = {
-    name = "eason",
-    id = 1,
-    array = {1, 2, 3, 5},
-    sum = function (x, y)
-    return x + y;
-    end
-}
-
 SpinningCube = {
 
     rotationVel = vec3(0.005, 0.005, 0.0),

@@ -9,6 +9,8 @@
 #include "MeshRenderer.hpp"
 #include "Light.hpp"
 #include "Shader.hpp"
+#include "LuaScript.hpp"
+#include "Cube.hpp"
 
 float DefaultVPos[] =
 {
@@ -29,6 +31,37 @@ unsigned int DefaultIndexData[] =
     0, 1, 2,
     2, 3, 0
 };
+
+MeshRenderer* MeshRenderer::BuildFromScript(const char* scriptPath)
+{
+    LuaScript* resScript = LuaScript::GetLuaScript(scriptPath, "Mesh Resource");
+    if (resScript != nullptr)
+    {
+        unsigned int vertexCntPerSide = resScript->Get<unsigned int>("Mesh.model.vertex_count_per_surface");
+        unsigned int surfaceCnt = resScript->Get<unsigned int>("Mesh.model.surface_count");
+        unsigned int attrFloatPerVtx = resScript->Get<unsigned int>("Mesh.model.attr_float_per_vertex");
+        unsigned int idxPerSurface = resScript->Get<unsigned int>("Mesh.model.idx_per_surface");
+        
+        std::vector<unsigned int> floatPerData = resScript->GetVector<unsigned int>("Mesh.model.layout_elements");
+        VertexBufferLayout layout;
+        for (int i=0; i<floatPerData.size(); i++)
+        {
+            layout.Add<float>(floatPerData[i], GL_FALSE);
+        }
+        
+        unsigned int vtxPosSize = surfaceCnt * vertexCntPerSide * attrFloatPerVtx * sizeof(float);
+        
+        unsigned int vtxIdxCnt = surfaceCnt * idxPerSurface;
+        
+        return new MeshRenderer(nullptr, {  resScript->GetVector<float>("Mesh.model.vertex_position").data(),
+                                            vtxPosSize,
+                                            layout,
+                                            resScript->GetVector<unsigned int>("Mesh.model.vertex_indicies").data(), vtxIdxCnt },
+                                new Material(new Shader(resScript->Get<std::string>("Mesh.shader.vertex_shader_path"), resScript->Get<std::string>("Mesh.shader.fragment_shader_path"))));
+    }
+
+    return nullptr;
+}
 
 MeshRenderer::MeshRenderer(GameObject* gameObject, ModelElement_Group mElement, Material* material)
 : m_Model(NULL), m_Material(material), m_Renderer(NULL), m_IsActive(true), Component(gameObject, "Mesh Renderer")
@@ -79,14 +112,12 @@ void MeshRenderer::Draw()
     if (m_Material->GetTexture()!=NULL && strcmp(m_Material->GetTexture()->GetFilePath(), "")!=0)
     {
         m_Material->GetTexture()->Bind();
-//        std::cout<<"test "<<m_Material->GetTexture()->GetFilePath()<<std::endl;
     }
     m_Material->GetShader()->Use();
     if (m_IsActive)
         m_Renderer->Draw(*m_Model);
     else
         m_Renderer->DrawLines(*m_Model);
-//    glDrawElements(GL_LINES, m_Model->GetCount(), GL_UNSIGNED_INT, nullptr);
 }
 
 MeshRenderer::~MeshRenderer()

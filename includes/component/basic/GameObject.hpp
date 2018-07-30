@@ -70,7 +70,7 @@ public:
         {
             temp->SetGameObject(this);
         }
-        if (temp!=NULL)
+        if (temp != nullptr)
             m_Components.push_back(temp);
         else
             std::cout<<"[INFO]: "<<__FILE__<<", AddComponent() failed."<<std::endl;

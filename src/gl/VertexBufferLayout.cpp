@@ -16,11 +16,11 @@ unsigned int LayoutElement::GetSizeOfType()
     switch(type)
     {
         case GL_FLOAT:
-            return 4;
+            return sizeof(GLfloat);
         case GL_UNSIGNED_INT:
-            return 4;
+            return sizeof(GLuint);
         case GL_BYTE:
-            return 1;
+            return sizeof(GLbyte);
     }
     ASSERT(false);
     return 0;

@@ -13,6 +13,7 @@
 #include <iostream>
 #include "Texture.hpp"
 #include "LuaScript.hpp"
+#include "TextEditor.hpp"
 
 //#include <filesystem>
 //
@@ -40,6 +41,7 @@ ResourceManager* ResourceManager::GetInstance()
 void ResourceManager::Init()
 {
     LoadGenerators();
+    LoadScript();
     LoadMedia();
 }
 
@@ -81,7 +83,12 @@ void ResourceManager::LoadMedia()
 void ResourceManager::LoadScript()
 {
     // TODO: load all script resources.
-    ResourceManager::m_LuaScripts.insert(std::make_pair("SpinningCube", new LuaScript(nullptr, "src/game/script/test.lua", "SpinningCube")));
+    
+    // ---------- Behavior Scripts ----------
+    ResourceManager::m_LuaScripts.insert(std::make_pair("src/game/script/SpinningCube.lua", new LuaScript(nullptr, "src/game/script/SpinningCube.lua", TextEditor::Str2ValuePtr(TextEditor::StripLuaFileName("src/game/script/SpinningCube.lua").c_str()))));
+    
+    // ---------- Resource Scripts ----------
+    ResourceManager::m_LuaScripts.insert(std::make_pair("src/game/basic/script/info/mesh/Cube.lua", new LuaScript(nullptr, "src/game/basic/script/info/mesh/Cube.lua", "Mesh Resource", RESOURCE_SCRIPT)));
 }
 
 void ResourceManager::LoadGenerators()

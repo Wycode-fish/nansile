@@ -26,6 +26,8 @@ class Light;
 class MeshRenderer: public Component
 {
 public:
+    static MeshRenderer* BuildFromScript(const char* meshInfoPath);
+public:
     MeshRenderer(GameObject* gameObject, const std::vector<ModelElement> elements, Material* material = new Material());
     
     MeshRenderer(GameObject* gameObject, ModelElement_Group mElement, Material* material = new Material());
