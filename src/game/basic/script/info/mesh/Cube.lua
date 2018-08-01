@@ -6,6 +6,12 @@ Mesh =
         fragment_shader_path = "src/gl/shaders/basic/default.fragment"
     },
 
+    texture = 
+    {
+        texture_paths =
+        {},
+    },
+
     model =
     {
         surface_count = 6,

@@ -73,7 +73,7 @@ public:
 public:
     inline Shader*  GetShader() const   { return m_Shader;  }
     inline Texture* GetTexture() const  { return m_Texture; }
-    inline MaterialAttribs*         GetAttribs() const  { return m_Attribs; }
+    inline MaterialAttribs* GetAttribs() const  { return m_Attribs; }
     
     inline      void     SetShader   (Shader* shader)      { Shader* temp = m_Shader; m_Shader = shader; delete temp; }
     inline      void     SetTexture  (Texture* texture)    { m_Texture = texture; }

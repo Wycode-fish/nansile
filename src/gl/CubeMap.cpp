@@ -9,8 +9,28 @@
 #include "CubeMap.hpp"
 #include "Renderer.hpp"
 #include "stb_image.hpp"
+#include "TextEditor.hpp"
 
 std::unordered_map<const char*, CubeMap*> CubeMap::CubeMapCache;
+
+CubeMap* CubeMap::GetCubeMap(std::vector<std::string>& filePaths)
+{
+    if (filePaths.size() == 0 || strcmp(filePaths[0].c_str(), "") == 0)
+    {
+        return nullptr;
+    }
+    auto it = CubeMapCache.find(filePaths[0].c_str());
+    if (it != CubeMapCache.end())
+    {
+        return CubeMapCache[filePaths[0].c_str()];
+    }
+    else
+    {
+        CubeMap* cubeMap = new CubeMap(filePaths);
+        return cubeMap;
+    }
+    return nullptr;
+}
 
 CubeMap::CubeMap()
 : m_RendererID(0), m_LocalBuffer(NULL), m_Width(0), m_Height(0), m_BPP(0), m_Format(0)
@@ -22,7 +42,8 @@ CubeMap::CubeMap(std::vector<std::string>& filePaths)
 : m_RendererID(0), m_LocalBuffer(NULL), m_FilePaths(filePaths), m_Width(0), m_Height(0), m_BPP(0), m_Format(0)
 {
     LoadCubeMapTexture(filePaths);
-    CubeMap::CubeMapCache[filePaths[0].c_str()] = this;
+    if (CubeMapCache.find(filePaths[0].c_str()) == CubeMapCache.end())
+        CubeMapCache[TextEditor::Str2ValuePtr(filePaths[0])] = this;
 }
 
 CubeMap::~CubeMap()

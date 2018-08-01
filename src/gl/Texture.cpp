@@ -14,6 +14,9 @@
 
 Texture* Texture::GetTexture(const char* filePath)
 {
+    if (filePath == nullptr || strcmp(filePath, "") == 0)
+        return nullptr;
+    
     auto it = ResourceManager::GetTextureResourceMap().find(filePath);
     if (it != ResourceManager::GetTextureResourceMap().end())
     {
@@ -22,10 +25,9 @@ Texture* Texture::GetTexture(const char* filePath)
     else
     {
         Texture* texture = new Texture(filePath);
-//        ResourceManager::GetTextureResourceMap().insert(std::make_pair(filePath, texture));
         return texture;
     }
-    return NULL;
+    return nullptr;
 }
 
 Texture::Texture()

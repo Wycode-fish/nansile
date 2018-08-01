@@ -89,6 +89,7 @@ void ResourceManager::LoadScript()
     
     // ---------- Resource Scripts ----------
     ResourceManager::m_LuaScripts.insert(std::make_pair("src/game/basic/script/info/mesh/Cube.lua", new LuaScript(nullptr, "src/game/basic/script/info/mesh/Cube.lua", "Mesh Resource", RESOURCE_SCRIPT)));
+    ResourceManager::m_LuaScripts.insert(std::make_pair("src/game/basic/script/info/mesh/SkyBox.lua", new LuaScript(nullptr, "src/game/basic/script/info/mesh/SkyBox.lua", "Mesh Resource", RESOURCE_SCRIPT)));
 }
 
 void ResourceManager::LoadGenerators()

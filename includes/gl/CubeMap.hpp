@@ -19,6 +19,7 @@ class CubeMap: public Texture
 {
 public:
     static std::unordered_map<const char*, CubeMap*> CubeMapCache;
+    static CubeMap* GetCubeMap(std::vector<std::string>& filePaths);
     CubeMap(std::vector<std::string>& filePaths);
     CubeMap();
     ~CubeMap();

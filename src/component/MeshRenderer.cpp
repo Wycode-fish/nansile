@@ -11,6 +11,7 @@
 #include "Shader.hpp"
 #include "LuaScript.hpp"
 #include "Cube.hpp"
+#include "CubeMap.hpp"
 
 float DefaultVPos[] =
 {
@@ -37,6 +38,10 @@ MeshRenderer* MeshRenderer::BuildFromScript(const char* scriptPath)
     LuaScript* resScript = LuaScript::GetLuaScript(scriptPath, "Mesh Resource");
     if (resScript != nullptr)
     {
+        std::vector<std::string> texturePaths = resScript->GetVector<std::string>("Mesh.texture.texture_paths");
+        Texture* texture = (texturePaths.size() == 0)? nullptr : (texturePaths.size() > 1)? CubeMap::GetCubeMap(texturePaths) : Texture::GetTexture(texturePaths[0].c_str());
+
+        
         unsigned int vertexCntPerSide = resScript->Get<unsigned int>("Mesh.model.vertex_count_per_surface");
         unsigned int surfaceCnt = resScript->Get<unsigned int>("Mesh.model.surface_count");
         unsigned int attrFloatPerVtx = resScript->Get<unsigned int>("Mesh.model.attr_float_per_vertex");
@@ -57,7 +62,8 @@ MeshRenderer* MeshRenderer::BuildFromScript(const char* scriptPath)
                                             vtxPosSize,
                                             layout,
                                             resScript->GetVector<unsigned int>("Mesh.model.vertex_indicies").data(), vtxIdxCnt },
-                                new Material(new Shader(resScript->Get<std::string>("Mesh.shader.vertex_shader_path"), resScript->Get<std::string>("Mesh.shader.fragment_shader_path"))));
+                                new Material(new Shader(resScript->Get<std::string>("Mesh.shader.vertex_shader_path"), resScript->Get<std::string>("Mesh.shader.fragment_shader_path")),
+                                             texture));
     }
 
     return nullptr;

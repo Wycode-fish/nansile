@@ -72,13 +72,16 @@ SkyBox::SkyBox(std::vector<std::string>& imgPaths)
 
 void SkyBox::MeshRendererBind()
 {
-    VertexBufferLayout layout;
-    layout.Add<float>(3, GL_FALSE);         // position
-    ModelElement_Group modelElement = { SkyBox::DefaultSkyBox_Model_VertPos, sizeof(float) * 6 * 4 * 3, layout,
-        SkyBox::DefaultSkyBox_Model_VertIdx, 6 * 6 };
+//    VertexBufferLayout layout;
+//    layout.Add<float>(3, GL_FALSE);         // position
+//    ModelElement_Group modelElement = { SkyBox::DefaultSkyBox_Model_VertPos, sizeof(float) * 6 * 4 * 3, layout,
+//        SkyBox::DefaultSkyBox_Model_VertIdx, 6 * 6 };
+//
+//    AddComponent<MeshRenderer>(new MeshRenderer(this, modelElement,
+//                                                new Material(new Shader(SkyBox::DefaultSkyBox_Shader_Path[0], SkyBox::DefaultSkyBox_Shader_Path[1]), new CubeMap(m_ImgPaths))));
     
-    AddComponent<MeshRenderer>(new MeshRenderer(this, modelElement,
-                                                new Material(new Shader(SkyBox::DefaultSkyBox_Shader_Path[0], SkyBox::DefaultSkyBox_Shader_Path[1]), new CubeMap(m_ImgPaths))));
+    AddComponent<MeshRenderer>(MeshRenderer::BuildFromScript("src/game/basic/script/info/mesh/SkyBox.lua"));
+
 }
 
 SkyBox::~SkyBox()
