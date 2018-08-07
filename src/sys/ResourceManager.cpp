@@ -88,8 +88,8 @@ void ResourceManager::LoadScript()
     ResourceManager::m_LuaScripts.insert(std::make_pair("src/game/script/SpinningCube.lua", new LuaScript(nullptr, "src/game/script/SpinningCube.lua", TextEditor::Str2ValuePtr(TextEditor::StripLuaFileName("src/game/script/SpinningCube.lua").c_str()))));
     
     // ---------- Resource Scripts ----------
-    ResourceManager::m_LuaScripts.insert(std::make_pair("src/game/basic/script/info/mesh/Cube.lua", new LuaScript(nullptr, "src/game/basic/script/info/mesh/Cube.lua", "Mesh Resource", RESOURCE_SCRIPT)));
-    ResourceManager::m_LuaScripts.insert(std::make_pair("src/game/basic/script/info/mesh/SkyBox.lua", new LuaScript(nullptr, "src/game/basic/script/info/mesh/SkyBox.lua", "Mesh Resource", RESOURCE_SCRIPT)));
+    ResourceManager::m_LuaScripts.insert(std::make_pair("src/game/basic/script/info/mesh/Cube.lua", new LuaScript(nullptr, "src/game/basic/script/info/mesh/Cube.lua", "Mesh", RESOURCE_SCRIPT)));
+    ResourceManager::m_LuaScripts.insert(std::make_pair("src/game/basic/script/info/mesh/SkyBox.lua", new LuaScript(nullptr, "src/game/basic/script/info/mesh/SkyBox.lua", "Mesh", RESOURCE_SCRIPT)));
 }
 
 void ResourceManager::LoadGenerators()

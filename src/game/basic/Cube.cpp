@@ -12,6 +12,8 @@
 #include "Transform.hpp"
 #include "MeshRenderer.hpp"
 
+const char* Cube::Configuration_FilePath = "src/game/basic/script/info/mesh/Cube.lua";
+
 //float Cube::DefaultModel_VertPos[6 * 4 * 8] =
 //{
 //    -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
@@ -68,7 +70,7 @@ void Cube::MeshRendererBind()
 //                                                new Material(new Shader(Material::DefaultShader_Path[0],
 //                                                           Material::DefaultShader_Path[1]))));
     
-    AddComponent<MeshRenderer>(MeshRenderer::BuildFromScript("src/game/basic/script/info/mesh/Cube.lua"));
+    AddComponent<MeshRenderer>(MeshRenderer::BuildFromScript(Configuration_FilePath));
 }
 
 

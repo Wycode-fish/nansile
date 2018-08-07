@@ -21,11 +21,10 @@ class Shader;
 class SkyBox: public GameObject
 {
 public:
-    static float DefaultSkyBox_Model_VertPos[6 * 4 * 3];
-    static unsigned int DefaultSkyBox_Model_VertIdx[6 * 6];
-    static const char* DefaultSkyBox_Shader_Path[2];
+    static const char* Configuration_FilePath;
 public:
-    SkyBox(std::vector<std::string>& imgPaths);
+    SkyBox();
+//    SkyBox(std::vector<std::string>& imgPaths);
     ~SkyBox();
 public:
     void MeshRendererBind();

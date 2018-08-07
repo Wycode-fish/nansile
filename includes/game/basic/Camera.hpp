@@ -37,7 +37,7 @@ public:
     void SetFOV(const float& fov);
     inline float GetFOV() const { return m_FOV; }
     
-    inline void AddSkyBox(std::vector<std::string>& skybox_path) { m_SkyBox = new SkyBox(skybox_path); }
+    inline void AddSkyBox() { m_SkyBox = new SkyBox(); }
 private:
     Timer m_DeltaTimer;
     float m_CameraMovingSpeed;

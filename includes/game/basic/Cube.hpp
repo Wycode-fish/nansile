@@ -16,6 +16,8 @@
 class Cube: public GameObject
 {
 public:
+    static const char* Configuration_FilePath;
+public:
     Cube();
     ~Cube();
     void MeshRendererBind();

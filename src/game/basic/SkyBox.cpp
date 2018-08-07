@@ -13,74 +13,21 @@
 #include "DisplaySys.hpp"
 #include "Camera.hpp"
 
+const char* SkyBox::Configuration_FilePath = "src/game/basic/script/info/mesh/SkyBox.lua";
 
-float SkyBox::DefaultSkyBox_Model_VertPos[] =
-{
-    -1.0f, -1.0f, 1.0f,
-    1.0f, -1.0f, 1.0f,
-    1.0f, 1.0f, 1.0f,
-    -1.0f, 1.0f, 1.0f,
-    
-    1.0f, 1.0f, 1.0f,
-    1.0f, 1.0f, -1.0f,
-    1.0f, -1.0f, -1.0f,
-    1.0f, -1.0f, 1.0f,
-    
-    -1.0f, -1.0f, -1.0f,
-    1.0f, -1.0f, -1.0f,
-    1.0f, 1.0f, -1.0f,
-    -1.0f, 1.0f, -1.0f,
-    
-    -1.0f, -1.0f, -1.0f,
-    -1.0f, -1.0f, 1.0f,
-    -1.0f, 1.0f, 1.0f,
-    -1.0f, 1.0f, -1.0f,
-    
-    1.0f, 1.0f, 1.0f,
-    1.0f, 1.0f, -1.0f,
-    -1.0f, 1.0f, -1.0f,
-    -1.0f, 1.0f, 1.0f,
-    
-    -1.0f, -1.0f, -1.0f,
-    1.0f, -1.0f, -1.0f,
-    1.0f, -1.0f, 1.0f,
-    -1.0f, -1.0f, 1.0f,
-};
 
-unsigned int SkyBox::DefaultSkyBox_Model_VertIdx[] =
-{
-
-    4, 5, 6, 4, 6, 7,           //right
-    12, 13, 14, 12, 14, 15,     //left
-    16, 17, 18, 16, 18, 19,     //upper
-    20, 21, 22, 20, 22, 23,      //bottom
-    8, 9, 10, 8, 10, 11,        //back
-    0, 1, 2, 2, 3, 0           //front
-    
-};
-
-const char* SkyBox::DefaultSkyBox_Shader_Path[2] =
-{
-    "src/gl/shaders/basic/skybox.vertex", "src/gl/shaders/basic/skybox.fragment"
-};
-
-SkyBox::SkyBox(std::vector<std::string>& imgPaths)
-:m_ImgPaths(imgPaths)
+SkyBox::SkyBox()
 {
     MeshRendererBind();
 }
 
 void SkyBox::MeshRendererBind()
 {
-//    VertexBufferLayout layout;
-//    layout.Add<float>(3, GL_FALSE);         // position
-//    ModelElement_Group modelElement = { SkyBox::DefaultSkyBox_Model_VertPos, sizeof(float) * 6 * 4 * 3, layout,
-//        SkyBox::DefaultSkyBox_Model_VertIdx, 6 * 6 };
-//
+
 //    AddComponent<MeshRenderer>(new MeshRenderer(this, modelElement,
 //                                                new Material(new Shader(SkyBox::DefaultSkyBox_Shader_Path[0], SkyBox::DefaultSkyBox_Shader_Path[1]), new CubeMap(m_ImgPaths))));
     
-    AddComponent<MeshRenderer>(MeshRenderer::BuildFromScript("src/game/basic/script/info/mesh/SkyBox.lua"));
+    AddComponent<MeshRenderer>(MeshRenderer::BuildFromScript(Configuration_FilePath));
 
 }
 
