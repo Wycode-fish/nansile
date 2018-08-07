@@ -16,6 +16,7 @@
 #include <LuaBridge.h>
 #include <memory>
 #include "Component.hpp"
+#include "ClassDef.hpp"
 
 class GameObject;
 
@@ -94,8 +95,11 @@ public:
             std::cout<<lua_typename(m_State, lua_type(m_State, -1))<<std::endl;
         }
         
-        return *((T*)lua_touserdata(m_State, -1));
+        T* res = (T*)lua_touserdata(m_State, -1);
+        return *res;
     }
+    
+    
     
     template<typename T>
     T LuaBridgeGet(const char* varName)
@@ -121,13 +125,14 @@ public:
         strcpy(varC, var.c_str());
         parser.push_back(varC);
         
-        LuaRef temp = getGlobal(m_State, parser[0]);
+        LuaRef curr = getGlobal(m_State, parser[0]);
         for (int i=1; i<parser.size()-1; i++)
         {
-            temp = temp[parser[i]];
+            LuaRef temp = curr[parser[i]];
+            curr = temp;
         }
-        
-        T res = temp[parser[parser.size()-1]].cast<T>();
+
+        T res = curr[parser[parser.size()-1]].cast<T>();
         
         for (int i=0; i<parser.size(); i++)
         {
@@ -160,7 +165,8 @@ public:
     void Update();
     void m_LoadUpdateFunction();
     void m_GetTableKeys(const char* tableName);
-
+    void m_InitClassDef();
+    
 private:
     lua_State* m_State;
     int m_StkLevel;
@@ -174,5 +180,6 @@ private:
 
 private:
     std::vector<const char*> m_TableKeys;
+    rttr::ClassDef* m_ClassDef;
 };
 #endif /* LuaScript_hpp */
