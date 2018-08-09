@@ -64,7 +64,7 @@ void GameObject::m_LocalTransformUpdate(GameObject& parent)
     float t_SizeX = m_Transform->GetScale().x/parent.GetTransform()->GetScale().x;
     float t_SizeY = m_Transform->GetScale().y/parent.GetTransform()->GetScale().y;
     float t_SizeZ = m_Transform->GetScale().z/parent.GetTransform()->GetScale().z;
-    m_Transform->SetLocalScale(glm::vec3(t_SizeX, t_SizeY, t_SizeZ));
+    m_Transform->SetLocalScale(ml::Vector3f(t_SizeX, t_SizeY, t_SizeZ));
     // TODO: Local Rotation update.
 }
 
@@ -93,7 +93,7 @@ void GameObject::m_GlobalRotationUpdate()
 
 void GameObject::m_GlobalScaleUpdate()
 {
-    m_Transform->SetScale(m_Transform->GetLocalScale() * m_Parent->GetTransform()->GetScale());
+    m_Transform->SetScale(m_Parent->GetTransform()->GetScale() * m_Transform->GetLocalScale());
     for (int i=0; i<m_Childs.size(); i++)
     {
         m_Childs[i]->m_GlobalScaleUpdate();

@@ -19,40 +19,40 @@
 
 struct LightAttribs
 {
-    LightAttribs(glm::vec3 ambient = LightAttribs::Default_Ambient,
-                glm::vec3 diffuse = LightAttribs::Default_Diffuse,
-                glm::vec3 specular = LightAttribs::Default_Specular,
-                glm::vec3 attenuation = LightAttribs::Default_Attenuation,
-                glm::vec3 color = LightAttribs::Default_Color,
+    LightAttribs(ml::Vector3f ambient = LightAttribs::Default_Ambient,
+                ml::Vector3f diffuse = LightAttribs::Default_Diffuse,
+                ml::Vector3f specular = LightAttribs::Default_Specular,
+                ml::Vector3f attenuation = LightAttribs::Default_Attenuation,
+                ml::Vector3f color = LightAttribs::Default_Color,
                  float intensity = LightAttribs::Default_Intensity);
-    static glm::vec3 Default_Ambient;
-    static glm::vec3 Default_Diffuse;
-    static glm::vec3 Default_Specular;
-    static glm::vec3 Default_Attenuation;
-    static glm::vec3 Default_Color;
+    static ml::Vector3f Default_Ambient;
+    static ml::Vector3f Default_Diffuse;
+    static ml::Vector3f Default_Specular;
+    static ml::Vector3f Default_Attenuation;
+    static ml::Vector3f Default_Color;
     static float     Default_Intensity;
     
     //----- SETTER -----//
-    inline void SetLightAmbient(const glm::vec3& ambient) {m_Ambient = ambient;}
-    inline void SetLightDiffuse(const glm::vec3& diffuse) {m_Diffuse = diffuse;}
-    inline void SetLightSpecular(const glm::vec3& specular) {m_Specular = specular;}
-    inline void SetLightAttenuation(const glm::vec3& attenuation) {m_Attenuation = attenuation;}
-    inline void SetLightColor(const glm::vec3& color) {m_Color = color;}
+    inline void SetLightAmbient(const ml::Vector3f& ambient) {m_Ambient = ambient;}
+    inline void SetLightDiffuse(const ml::Vector3f& diffuse) {m_Diffuse = diffuse;}
+    inline void SetLightSpecular(const ml::Vector3f& specular) {m_Specular = specular;}
+    inline void SetLightAttenuation(const ml::Vector3f& attenuation) {m_Attenuation = attenuation;}
+    inline void SetLightColor(const ml::Vector3f& color) {m_Color = color;}
     inline void SetLightIntensity(const float& intensity) { m_Intensity = intensity; }
 
-    inline glm::vec3& GetLightAmbientRef() { return m_Ambient; }
-    inline glm::vec3& GetLightDiffuseRef() { return m_Diffuse; }
-    inline glm::vec3& GetLightSpecularRef() { return m_Specular; }
-    inline glm::vec3& GetLightAttenuationRef() { return m_Attenuation; }
-    inline glm::vec3& GetLightColorRef() { return m_Color; }
+    inline ml::Vector3f& GetLightAmbientRef() { return m_Ambient; }
+    inline ml::Vector3f& GetLightDiffuseRef() { return m_Diffuse; }
+    inline ml::Vector3f& GetLightSpecularRef() { return m_Specular; }
+    inline ml::Vector3f& GetLightAttenuationRef() { return m_Attenuation; }
+    inline ml::Vector3f& GetLightColorRef() { return m_Color; }
     inline float& GetLightIntensityRef() { return m_Intensity; }
 
     //----- PROPERTIES -----//
-    glm::vec3 m_Ambient;
-    glm::vec3 m_Diffuse;
-    glm::vec3 m_Specular;
-    glm::vec3 m_Attenuation;
-    glm::vec3 m_Color;
+    ml::Vector3f m_Ambient;
+    ml::Vector3f m_Diffuse;
+    ml::Vector3f m_Specular;
+    ml::Vector3f m_Attenuation;
+    ml::Vector3f m_Color;
     float m_Intensity;
 };
 

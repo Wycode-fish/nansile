@@ -7,9 +7,7 @@
 //
 
 #include "MeshRendererPanel.hpp"
-#include "glm.hpp"
-#include "gtc/matrix_transform.hpp"
-#include <gtc/type_ptr.hpp>
+#include "Operations.hpp"
 #include "ResourceManager.hpp"
 
 namespace gui {
@@ -54,10 +52,11 @@ namespace gui {
         if (ImGui::TreeNode("MATERIAL"))
         {
             ImGui::SliderFloat3("ambient",
-                                glm::value_ptr(m_MeshRenderer->GetMaterial()->GetAttribs()->GetMatAmbientRef()), 0.0f, 1.0f);
+                                ml::ValuePtr(m_MeshRenderer->GetMaterial()->GetAttribs()->GetMatAmbientRef()),
+                                0.0f, 1.0f);
             ImGui::SliderFloat3("diffuse",
-                                glm::value_ptr(m_MeshRenderer->GetMaterial()->GetAttribs()->GetMatDiffuseRef()), 0.0f, 1.0f);
-            ImGui::SliderFloat3("specular", glm::value_ptr(m_MeshRenderer->GetMaterial()->GetAttribs()->GetMatSpecularRef()), 0.0f, 1.0f);
+                                ml::ValuePtr(m_MeshRenderer->GetMaterial()->GetAttribs()->GetMatDiffuseRef()), 0.0f, 1.0f);
+            ImGui::SliderFloat3("specular", ml::ValuePtr(m_MeshRenderer->GetMaterial()->GetAttribs()->GetMatSpecularRef()), 0.0f, 1.0f);
             ImGui::SliderFloat("shiness", &m_MeshRenderer->GetMaterial()->GetAttribs()->GetMatShinessRef(), 0.0f, 256.0f);
             ImGui::SliderFloat("transparency", &m_MeshRenderer->GetMaterial()->GetAttribs()->GetMatTransparencyRef(), 0.0f, 1.0f);
 

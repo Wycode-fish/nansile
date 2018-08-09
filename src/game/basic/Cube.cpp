@@ -91,16 +91,16 @@ void Cube::OnRender()
         Shader* shaderPtr = mr->GetMaterial()->GetShader();
         shaderPtr->Use();
         
-        glm::vec3 camPos = DisplaySys::Main_Camera->GetTransform()->GetPosition();
+        ml::Vector3f camPos = DisplaySys::Main_Camera->GetTransform()->GetPosition();
         shaderPtr->SetUniform3f("u_CameraPos", camPos.x, camPos.y, camPos.z);
         shaderPtr->SetUniformMat4f("u_ProjMatrix", DisplaySys::Main_Camera->GetProjMat());
         shaderPtr->SetUniformMat4f("u_ViewMatrix", DisplaySys::Main_Camera->GetViewMat());
         
-        glm::mat4 modelMat = glm::translate(glm::mat4(1.0f), GetTransform()->GetPosition());
-        modelMat = glm::rotate(modelMat, GetTransform()->GetRotation().x, glm::vec3(1.0f, 0.0f, 0.0f));
-        modelMat = glm::rotate(modelMat, GetTransform()->GetRotation().y, glm::vec3(0.0f, 1.0f, 0.0f));
-        modelMat = glm::rotate(modelMat, GetTransform()->GetRotation().z, glm::vec3(0.0f, 0.0f, 1.0f));
-        modelMat = glm::scale(modelMat, GetTransform()->GetScale());
+        ml::Matrix4f modelMat = ml::Translate(ml::Matrix4f(1.0f), GetTransform()->GetPosition());
+        modelMat = ml::Rotate(modelMat, GetTransform()->GetRotation().x, ml::Vector3f(1.0f, 0.0f, 0.0f));
+        modelMat = ml::Rotate(modelMat, GetTransform()->GetRotation().y, ml::Vector3f(0.0f, 1.0f, 0.0f));
+        modelMat = ml::Rotate(modelMat, GetTransform()->GetRotation().z, ml::Vector3f(0.0f, 0.0f, 1.0f));
+        modelMat = ml::Scale(modelMat, GetTransform()->GetScale());
         shaderPtr->SetUniformMat4f("u_ModelMatrix", modelMat);
         
         mr->Draw();

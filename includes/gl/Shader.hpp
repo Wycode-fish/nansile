@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <string>
 #include <unordered_map>
-#include "glm.hpp"
+#include "Operations.hpp"
 #include "MetaData.hpp"
 
 struct ShaderSources
@@ -32,7 +32,7 @@ public:
     void SetUniform2f(const char* varName, float v1, float v2);
     void SetUniform1f(const char* varName, float v1);
     void SetUniform1i(const char* varName, unsigned int v1);
-    void SetUniformMat4f(const char* varName, glm::mat4 src);
+    void SetUniformMat4f(const char* varName, ml::Matrix4f src);
     ~Shader();
 private:
     void CompileShaders(const ShaderSources& ssrc);

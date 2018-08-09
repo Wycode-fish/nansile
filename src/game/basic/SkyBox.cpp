@@ -44,7 +44,7 @@ void SkyBox::OnRender()
         
         mr->GetMaterial()->GetShader()->Use();
         mr->GetMaterial()->GetShader()->SetUniformMat4f("u_ProjMatrix", DisplaySys::Main_Camera->GetProjMat());
-        mr->GetMaterial()->GetShader()->SetUniformMat4f("u_ViewMatrix", glm::mat4(glm::mat3(DisplaySys::Main_Camera->GetViewMat())));
+        mr->GetMaterial()->GetShader()->SetUniformMat4f("u_ViewMatrix", ml::Matrix4f(ml::Matrix3f(DisplaySys::Main_Camera->GetViewMat())));
         
         mr->Draw();
         

@@ -8,13 +8,13 @@
 
 #include "Material.hpp"
 
-glm::vec3 MaterialAttribs::Default_Ambient = glm::vec3(0.3, 0.3, 0.31);
-glm::vec3 MaterialAttribs::Default_Diffuse = glm::vec3(0.3, 0.3, 0.31);
-glm::vec3 MaterialAttribs::Default_Specular = glm::vec3(0.5, 0.5, 0.5);
+ml::Vector3f MaterialAttribs::Default_Ambient = ml::Vector3f(0.3, 0.3, 0.31);
+ml::Vector3f MaterialAttribs::Default_Diffuse = ml::Vector3f(0.3, 0.3, 0.31);
+ml::Vector3f MaterialAttribs::Default_Specular = ml::Vector3f(0.5, 0.5, 0.5);
 float MaterialAttribs::Default_Shiness = 128.0f;
 float MaterialAttribs::Default_Transparency = 1.0f;
 
-MaterialAttribs::MaterialAttribs(glm::vec3 ambient, glm::vec3 diffuse, glm::vec3 specular, float shiness, float transparency)
+MaterialAttribs::MaterialAttribs(ml::Vector3f ambient, ml::Vector3f diffuse, ml::Vector3f specular, float shiness, float transparency)
 : m_Ambient(ambient), m_Diffuse(diffuse), m_Specular(specular), m_Shiness(shiness), m_Transparency(transparency)
 {
 }

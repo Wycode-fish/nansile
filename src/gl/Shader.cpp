@@ -136,7 +136,6 @@ void Shader::SetUniform3f(const char* varName, float v1, float v2, float v3)
     GLCALL(glUniform3f(location, v1, v2, v3));
 }
 
-
 void Shader::SetUniform1f(const char* varName, float v1)
 {
     GLCALL(int location = GetUniformLocation(varName));
@@ -147,7 +146,6 @@ void Shader::SetUniform1f(const char* varName, float v1)
     }
     GLCALL(glUniform1f(location, v1));
 }
-
 
 void Shader::SetUniform1i(const char* varName, unsigned int v1)
 {
@@ -161,7 +159,7 @@ void Shader::SetUniform1i(const char* varName, unsigned int v1)
 }
 
 
-void Shader::SetUniformMat4f(const char* varName, glm::mat4 src)
+void Shader::SetUniformMat4f(const char* varName, ml::Matrix4f src)
 {
     GLCALL(int location = GetUniformLocation(varName));
     if (location == -1)

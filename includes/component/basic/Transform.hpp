@@ -10,51 +10,50 @@
 #define Transform_hpp
 
 #include <stdio.h>
-#include "glm.hpp"
-#include "gtc/matrix_transform.hpp"
+#include "Operations.hpp"
 
 class Transform
 {
 public:
-    Transform(glm::vec3 pos = glm::vec3(0.0f),
-              glm::vec3 rot = glm::vec3(0.0f),
-              glm::vec3 scale = glm::vec3(1.0f));
+    Transform(ml::Vector3f pos = ml::Vector3f(0.0f),
+              ml::Vector3f rot = ml::Vector3f(0.0f),
+              ml::Vector3f scale = ml::Vector3f(1.0f));
     ~Transform();
 
 public:
-    static      glm::vec3       Up;
+    static      ml::Vector3f       Up;
 public:
     void        Update();
     
 public:
-    inline      glm::vec3       GetPosition()  const            {return m_Position;}
-    inline      glm::vec3       GetRotation()  const            {return m_Rotation;}
-    inline      glm::vec3       GetScale()     const            {return m_Scale;}
-    inline      void            SetPosition(glm::vec3 pos)      { m_Position = pos;}
-    inline      void            SetRotation(glm::vec3 rot)      { m_Rotation = rot;}
-    inline      void            SetScale(glm::vec3 scale)       { m_Scale = scale;}
-    inline      glm::vec3       GetLocalPosition()              {return m_LocalPosition;}
-    inline      glm::vec3       GetLocalRotation()              {return m_LocalRotation;}
-    inline      glm::vec3       GetLocalScale()                 {return m_LocalScale;}
-    inline      void            SetLocalPosition(glm::vec3 pos) { m_LocalPosition = pos;}
-    inline      void            SetLocalRotation(glm::vec3 rot) { m_LocalRotation = rot;}
-    inline      void            SetLocalScale(glm::vec3 scale)  { m_LocalScale = scale;}
+    inline      ml::Vector3f       GetPosition()  const            {return m_Position;}
+    inline      ml::Vector3f       GetRotation()  const            {return m_Rotation;}
+    inline      ml::Vector3f       GetScale()     const            {return m_Scale;}
+    inline      void            SetPosition(ml::Vector3f pos)      { m_Position = pos;}
+    inline      void            SetRotation(ml::Vector3f rot)      { m_Rotation = rot;}
+    inline      void            SetScale(ml::Vector3f scale)       { m_Scale = scale;}
+    inline      ml::Vector3f       GetLocalPosition()              {return m_LocalPosition;}
+    inline      ml::Vector3f       GetLocalRotation()              {return m_LocalRotation;}
+    inline      ml::Vector3f       GetLocalScale()                 {return m_LocalScale;}
+    inline      void            SetLocalPosition(ml::Vector3f pos) { m_LocalPosition = pos;}
+    inline      void            SetLocalRotation(ml::Vector3f rot) { m_LocalRotation = rot;}
+    inline      void            SetLocalScale(ml::Vector3f scale)  { m_LocalScale = scale;}
     
 public:
-    inline      glm::vec3&      GetPositionRef()                {return m_Position;}
-    inline      glm::vec3&      GetRotationRef()                {return m_Rotation;}
-    inline      glm::vec3&      GetScaleRef()                   {return m_Scale;}
+    inline      ml::Vector3f&      GetPositionRef()                {return m_Position;}
+    inline      ml::Vector3f&      GetRotationRef()                {return m_Rotation;}
+    inline      ml::Vector3f&      GetScaleRef()                   {return m_Scale;}
     
 public:
-    inline      glm::vec3       GetForward()                    {return glm::normalize(m_Rotation);}
-    inline      glm::vec3       GetRight()                      {return glm::normalize(glm::cross(GetForward(), Up));}
+    inline      ml::Vector3f       GetForward()     {return ml::Normalize(m_Rotation);}
+    inline      ml::Vector3f       GetRight()       {return ml::Normalize(ml::Cross(GetForward(), Up));}
     
 private:
-    glm::vec3   m_Position;
-    glm::vec3   m_Rotation;
-    glm::vec3   m_Scale;
-    glm::vec3   m_LocalPosition;
-    glm::vec3   m_LocalRotation;
-    glm::vec3   m_LocalScale;
+    ml::Vector3f   m_Position;
+    ml::Vector3f   m_Rotation;
+    ml::Vector3f   m_Scale;
+    ml::Vector3f   m_LocalPosition;
+    ml::Vector3f   m_LocalRotation;
+    ml::Vector3f   m_LocalScale;
 };
 #endif /* Transform_hpp */

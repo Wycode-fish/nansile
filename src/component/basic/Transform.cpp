@@ -8,9 +8,9 @@
 
 #include "Transform.hpp"
 
-glm::vec3 Transform::Up = glm::vec3(0.f, 1.f, 0.f);
+ml::Vector3f Transform::Up = ml::Vector3f(0.f, 1.f, 0.f);
 
-Transform::Transform(glm::vec3 pos, glm::vec3 rot, glm::vec3 scale)
+Transform::Transform(ml::Vector3f pos, ml::Vector3f rot, ml::Vector3f scale)
 : m_Position(pos), m_Rotation(rot), m_Scale(scale)
 {
     // TODO: nothing yet.

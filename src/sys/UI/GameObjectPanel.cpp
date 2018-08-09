@@ -7,9 +7,7 @@
 //
 
 #include "GameObjectPanel.hpp"
-#include "glm.hpp"
-#include "gtc/matrix_transform.hpp"
-#include <gtc/type_ptr.hpp>
+#include "Operations.hpp"
 #include "MeshRendererPanel.hpp"
 
 
@@ -91,14 +89,14 @@ namespace gui {
         ImGui::NewLine();
         
         float pi = glm::pi<float>();
-        ImGui::SliderFloat3("position", glm::value_ptr(m_GameObject->GetTransform()->GetPositionRef()), -VWidth, VWidth);
-        ImGui::SliderFloat3("rotation(PI)", glm::value_ptr(m_GameObject->GetTransform()->GetRotationRef()), -1.0f * pi, 1.0f * pi);
-        ImGui::SliderFloat3("scale", glm::value_ptr(m_GameObject->GetTransform()->GetScaleRef()), 0.0f, VWidth);
+        ImGui::SliderFloat3("position", ml::ValuePtr(m_GameObject->GetTransform()->GetPositionRef()), -VWidth, VWidth);
+        ImGui::SliderFloat3("rotation(PI)", ml::ValuePtr(m_GameObject->GetTransform()->GetRotationRef()), -1.0f * pi, 1.0f * pi);
+        ImGui::SliderFloat3("scale", ml::ValuePtr(m_GameObject->GetTransform()->GetScaleRef()), 0.0f, VWidth);
         if (ImGui::Button("reset"))
         {
-            m_GameObject->GetTransform()->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
-            m_GameObject->GetTransform()->SetRotation(glm::vec3(0.0f, 0.0f, 0.0f));
-            m_GameObject->GetTransform()->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
+            m_GameObject->GetTransform()->SetPosition(ml::Vector3f(0.0f, 0.0f, 0.0f));
+            m_GameObject->GetTransform()->SetRotation(ml::Vector3f(0.0f, 0.0f, 0.0f));
+            m_GameObject->GetTransform()->SetScale(ml::Vector3f(1.0f, 1.0f, 1.0f));
         }
     }
     

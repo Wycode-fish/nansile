@@ -12,27 +12,26 @@
 #include <stdio.h>
 #include "GameObject.hpp"
 #include "Timer.hpp"
-#include "glm.hpp"
-#include "gtc/matrix_transform.hpp"
+#include "Operations.hpp"
 #include "SkyBox.hpp"
 
 class Camera: public GameObject
 {
 public:
-    static glm::mat4 DefaultProjectionMatrix;
-    static glm::mat4 OrthographicProjectionMatrix;
-    static glm::mat4 PerspectiveProjectionMatrix;
-    static inline void SetDefaultProjectionMatrix(glm::mat4 mat) { DefaultProjectionMatrix = mat; }
+    static ml::Matrix4f DefaultProjectionMatrix;
+    static ml::Matrix4f OrthographicProjectionMatrix;
+    static ml::Matrix4f PerspectiveProjectionMatrix;
+    static inline void SetDefaultProjectionMatrix(ml::Matrix4f mat) { DefaultProjectionMatrix = mat; }
 public:
     Camera();
     ~Camera();
     void Update();
     void OnRender();
 public:
-    inline glm::mat4 GetViewMat() const { return m_View; }
+    inline ml::Matrix4f GetViewMat() const { return m_View; }
     
-    inline glm::mat4 GetProjMat() const { return m_Proj; }
-    inline void SetProjMat(const glm::mat4& proj) { m_Proj = proj;}
+    inline ml::Matrix4f GetProjMat() const { return m_Proj; }
+    inline void SetProjMat(const ml::Matrix4f& proj) { m_Proj = proj;}
     
     void SetFOV(const float& fov);
     inline float GetFOV() const { return m_FOV; }
@@ -51,8 +50,8 @@ private:
     
 private:
     SkyBox* m_SkyBox;
-    glm::mat4 m_View;
-    glm::mat4 m_Proj;
+    ml::Matrix4f m_View;
+    ml::Matrix4f m_Proj;
     float m_Pitch;
     float m_Yaw;
     float m_FOV;

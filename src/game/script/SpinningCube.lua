@@ -1,9 +1,5 @@
 SpinningCube = {
 
-    rotationVel = vec3(0.005, 0.005, 0.0),
-
-    id = 2,
-    
 	public = 
 	{
 		rotationVel = vec3(0.005, 0.005, 0.0),

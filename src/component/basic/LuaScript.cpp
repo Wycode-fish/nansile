@@ -28,19 +28,17 @@ LuaScript::LuaScript(GameObject* gameObject, const char* scriptName, const char*
     m_State = luaL_newstate();
     luaL_openlibs(m_State);
     
-    
-    
     if (m_Type == BEHAVIOR_SCRIPT)
     {
         getGlobalNamespace(m_State)
-        .beginClass<glm::vec3>("vec3")
+        .beginClass<ml::Vector3f>("vec3")
         .addConstructor<void(*)(const float&, const float&, const float&)>()
-        .addData("x", &glm::vec3::x)
-        .addData("y", &glm::vec3::y)
-        .addData("z", &glm::vec3::z)
+        .addData("x", &ml::Vector3f::x)
+        .addData("y", &ml::Vector3f::y)
+        .addData("z", &ml::Vector3f::z)
         .endClass()
         .beginClass<Transform>("Transform")
-        .addConstructor<void(*)(glm::vec3, glm::vec3, glm::vec3)>()
+        .addConstructor<void(*)(ml::Vector3f, ml::Vector3f, ml::Vector3f)>()
         .addProperty("position", &Transform::GetPosition, &Transform::SetPosition)
         .addProperty("rotation", &Transform::GetRotation, &Transform::SetRotation)
         .addProperty("scale", &Transform::GetScale, &Transform::SetScale)
@@ -87,11 +85,11 @@ LuaScript::LuaScript(GameObject* gameObject, const char* scriptName, const char*
     else
     {
         getGlobalNamespace(m_State)
-            .beginClass<glm::vec3>("vec3")
+            .beginClass<ml::Vector3f>("vec3")
             .addConstructor<void(*)(const float&, const float&, const float&)>()
-            .addData("x", &glm::vec3::x)
-            .addData("y", &glm::vec3::y)
-            .addData("z", &glm::vec3::z)
+            .addData("x", &ml::Vector3f::x)
+            .addData("y", &ml::Vector3f::y)
+            .addData("z", &ml::Vector3f::z)
         .endClass();
         ClearLuaStack();
         
@@ -330,7 +328,8 @@ void LuaScript::Update()
         try
         {
             (*m_UpdateFunc)(GetGameObject());
-//            glm::vec3 rotvel = LuaBridgeGet<glm::vec3>("SpinningCube.public.rotationVel");
+
+//            ml::Vector3f rotvel = LuaBridgeGet<ml::Vector3f>("SpinningCube.public.rotationVel");
 //            std::cout<<rotvel.x<<" "<<rotvel.y<<" "<<rotvel.z<<std::endl;
         }
         catch (luabridge::LuaException const & e)

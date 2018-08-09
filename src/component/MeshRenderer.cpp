@@ -57,13 +57,25 @@ MeshRenderer* MeshRenderer::BuildFromScript(const char* scriptPath)
         unsigned int vtxPosSize = surfaceCnt * vertexCntPerSide * attrFloatPerVtx * sizeof(float);
         
         unsigned int vtxIdxCnt = surfaceCnt * idxPerSurface;
+        std::vector<float> vp = resScript->GetVector<float>("Mesh.model.vertex_position");
         
-        return new MeshRenderer(nullptr, {  resScript->GetVector<float>("Mesh.model.vertex_position").data(),
-                                            vtxPosSize,
-                                            layout,
-                                            resScript->GetVector<unsigned int>("Mesh.model.vertex_indicies").data(), vtxIdxCnt },
-                                new Material(new Shader(resScript->Get<std::string>("Mesh.shader.vertex_shader_path"), resScript->Get<std::string>("Mesh.shader.fragment_shader_path")),
-                                             texture));
+        float* vposData = new float[vp.size()];
+        for (int i=0; i<vp.size(); i++)
+        {
+            vposData[i] = vp[i];
+        }
+        std::vector<unsigned> idxs = resScript->GetVector<unsigned int>("Mesh.model.vertex_indicies");
+        unsigned* idxData = new unsigned[idxs.size()];
+        for (int i=0; i<idxs.size(); i++)
+        {
+            idxData[i] = idxs[i];
+        }
+        std::string vsPath = resScript->Get<std::string>("Mesh.shader.vertex_shader_path");
+        std::string fsPath = resScript->Get<std::string>("Mesh.shader.fragment_shader_path");
+        
+        return new MeshRenderer(nullptr,
+                                { vposData, vtxPosSize, layout, idxData, vtxIdxCnt },
+                                new Material(new Shader( vsPath, fsPath), texture));
     }
 
     return nullptr;
@@ -146,15 +158,15 @@ void MeshRenderer::Reload(ModelElement_Group mElement, Shader* shader, Texture* 
 
 void MeshRenderer::ApplyLight(Light* light)
 {
-    glm::vec3 ambient = light->GetAttribs()->m_Ambient;
-    glm::vec3 diffuse = light->GetAttribs()->m_Diffuse;
-    glm::vec3 specular = light->GetAttribs()->m_Specular;
-    glm::vec3 attenuation = light->GetAttribs()->m_Attenuation;
-    glm::vec3 color = light->GetAttribs()->m_Color;
+    ml::Vector3f ambient = light->GetAttribs()->m_Ambient;
+    ml::Vector3f diffuse = light->GetAttribs()->m_Diffuse;
+    ml::Vector3f specular = light->GetAttribs()->m_Specular;
+    ml::Vector3f attenuation = light->GetAttribs()->m_Attenuation;
+    ml::Vector3f color = light->GetAttribs()->m_Color;
     float intensity = light->GetAttribs()->m_Intensity;
     
-    glm::vec3 pos = light->GetTransform()->GetPosition();
-    glm::vec3 rot = light->GetTransform()->GetRotation();
+    ml::Vector3f pos = light->GetTransform()->GetPosition();
+    ml::Vector3f rot = light->GetTransform()->GetRotation();
     
     Shader* shaderPtr = m_Material->GetShader();
     shaderPtr->Use();
@@ -188,9 +200,9 @@ void MeshRenderer::RenderPrepare()
         shaderPtr->SetUniform1i("u_TextureExist", 1);
     }
     MaterialAttribs* attribs = GetMaterial()->GetAttribs();
-    glm::vec3 mat_ambient = attribs->m_Ambient;
-    glm::vec3 mat_diffuse = attribs->m_Diffuse;
-    glm::vec3 mat_specular = attribs->m_Specular;
+    ml::Vector3f mat_ambient = attribs->m_Ambient;
+    ml::Vector3f mat_diffuse = attribs->m_Diffuse;
+    ml::Vector3f mat_specular = attribs->m_Specular;
     float mat_shiness = attribs->m_Shiness;
     float transparency = attribs->m_Transparency;
 
