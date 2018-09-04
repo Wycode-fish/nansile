@@ -7,8 +7,9 @@
 //
 
 #include "UI.hpp"
-#include "MeshRenderer.hpp"
+#include "MeshRendererAssimp.hpp"
 #include "MeshRendererPanel.hpp"
+#include "ParticleSystemPanel.hpp"
 #include "LuaScript.hpp"
 #include "LuaScriptPanel.hpp"
 
@@ -55,11 +56,18 @@ namespace gui {
         
         std::cout<<"register start."<<std::endl;
 
-        ComponentPanel::Register<MeshRendererPanel, MeshRenderer>("Mesh Renderer");
+        ComponentPanel::Register<MeshRendererPanel, rl::MeshRenderer>("Mesh Renderer");
         if (ComponentPanel::GetPanelGenerators()["Mesh Renderer"] == nullptr)
         {
             std::cout<<"Add failed."<<std::endl;
         }
+        
+        ComponentPanel::Register<ParticleSystemPanel, ParticleSystem>("Particle System");
+        if (ComponentPanel::GetPanelGenerators()["Particle System"] == nullptr)
+        {
+            std::cout<<"Add failed."<<std::endl;
+        }
+        
         ComponentPanel::Register<LuaScriptPanel, LuaScript>("Lua Script");
         if (ComponentPanel::GetPanelGenerators()["Lua Script"] == nullptr)
         {

@@ -39,7 +39,7 @@ MeshRenderer* MeshRenderer::BuildFromScript(const char* scriptPath)
     if (resScript != nullptr)
     {
         std::vector<std::string> texturePaths = resScript->GetVector<std::string>("Mesh.texture.texture_paths");
-        Texture* texture = (texturePaths.size() == 0)? nullptr : (texturePaths.size() > 1)? CubeMap::GetCubeMap(texturePaths) : Texture::GetTexture(texturePaths[0].c_str());
+        rl::Texture* texture = (texturePaths.size() == 0)? nullptr : (texturePaths.size() > 1)? rl::CubeMap::GetCubeMap(texturePaths) : rl::Texture::GetTexture(texturePaths[0].c_str());
 
         
         unsigned int vertexCntPerSide = resScript->Get<unsigned int>("Mesh.model.vertex_count_per_surface");
@@ -48,7 +48,7 @@ MeshRenderer* MeshRenderer::BuildFromScript(const char* scriptPath)
         unsigned int idxPerSurface = resScript->Get<unsigned int>("Mesh.model.idx_per_surface");
         
         std::vector<unsigned int> floatPerData = resScript->GetVector<unsigned int>("Mesh.model.layout_elements");
-        VertexBufferLayout layout;
+        rl::VertexBufferLayout layout;
         for (int i=0; i<floatPerData.size(); i++)
         {
             layout.Add<float>(floatPerData[i], GL_FALSE);
@@ -75,47 +75,48 @@ MeshRenderer* MeshRenderer::BuildFromScript(const char* scriptPath)
         
         return new MeshRenderer(nullptr,
                                 { vposData, vtxPosSize, layout, idxData, vtxIdxCnt },
-                                new Material(new Shader( vsPath, fsPath), texture));
+                                new rl::Material(new rl::Shader( vsPath, fsPath), texture));
     }
 
     return nullptr;
 }
 
-MeshRenderer::MeshRenderer(GameObject* gameObject, ModelElement_Group mElement, Material* material)
-: m_Model(NULL), m_Material(material), m_Renderer(NULL), m_IsActive(true), Component(gameObject, "Mesh Renderer")
+MeshRenderer::MeshRenderer(GameObject* gameObject, rl::MeshElement_Group mElement, rl::Material* material)
+: m_Mesh(NULL), m_Material(material), m_Renderer(NULL), m_IsActive(true), Component(gameObject, "Mesh Renderer")
 {
-    m_Model = new Model(mElement.m_VboData,
-                        mElement.m_VboSize,
-                        mElement.m_VboLayout,
-                        new IndexBuffer((const unsigned int*)mElement.m_IboData, mElement.m_IboCnt));
-    m_Renderer = new Renderer();
+    m_Mesh = new rl::Mesh(mElement.m_VboData,
+                          mElement.m_VboSize,
+                          mElement.m_VboLayout,
+                          (const unsigned int*)mElement.m_IboData,
+                          mElement.m_IboCnt);
+    m_Renderer = new rl::Renderer();
 }
 
-MeshRenderer::MeshRenderer(GameObject* gameObject, const std::vector<ModelElement> elements, Material* material)
-: m_Model(NULL), m_Material(material), m_Renderer(NULL), Component(gameObject, "Mesh Renderer")
+MeshRenderer::MeshRenderer(GameObject* gameObject, const std::vector<rl::MeshElement> elements, rl::Material* material)
+: m_Mesh(NULL), m_Material(material), m_Renderer(NULL), Component(gameObject, "Mesh Renderer")
 {
-    ModelInit(elements);
-    m_Renderer = new Renderer();
+    MeshInit(elements);
+    m_Renderer = new rl::Renderer();
 }
 
-void MeshRenderer::ModelInit(const std::vector<ModelElement>& elements)
+void MeshRenderer::MeshInit(const std::vector<rl::MeshElement>& elements)
 {
-    std::vector<VertexBuffer*> vbos;
-    IndexBuffer* ibo = NULL;
+    std::vector<rl::VertexBuffer*> vbos;
+    rl::IndexBuffer* ibo = NULL;
     for (int i=0; i<elements.size(); i++)
     {
-        ModelElement elem = elements[i];
-        if (elem.m_Tag == ModelElement::VBO)
+        rl::MeshElement elem = elements[i];
+        if (elem.m_Tag == rl::MeshElement::VBO)
         {
-            VertexBuffer* vbo = new VertexBuffer(elem.m_Data, elem.m_Type, elem.m_ElemPerVer, elem.m_VtxCnt, elem.m_Normalized);
+            rl::VertexBuffer* vbo = new rl::VertexBuffer(elem.m_Data, elem.m_Type, elem.m_ElemPerVer, elem.m_VtxCnt, elem.m_Normalized);
             vbos.push_back(vbo);
         }
-        else if (elem.m_Tag == ModelElement::IBO)
+        else if (elem.m_Tag == rl::MeshElement::IBO)
         {
-            ibo = new IndexBuffer((const unsigned int*)elem.m_Data, elem.m_VtxCnt);
+            ibo = new rl::IndexBuffer((const unsigned int*)elem.m_Data, elem.m_VtxCnt);
         }
     }
-    m_Model = new Model(vbos, ibo);
+    m_Mesh = new rl::Mesh(vbos, ibo);
 }
 
 void MeshRenderer::Render()
@@ -126,34 +127,35 @@ void MeshRenderer::Render()
 
 void MeshRenderer::Draw()
 {
-    m_Model->Use();
+    m_Mesh->Use();
     if (m_Material->GetTexture()!=NULL && strcmp(m_Material->GetTexture()->GetFilePath(), "")!=0)
     {
         m_Material->GetTexture()->Bind();
     }
     m_Material->GetShader()->Use();
     if (m_IsActive)
-        m_Renderer->Draw(*m_Model);
+        m_Renderer->Draw(*m_Mesh);
     else
-        m_Renderer->DrawLines(*m_Model);
+        m_Renderer->DrawLines(*m_Mesh);
 }
 
 MeshRenderer::~MeshRenderer()
 {
-    if (m_Model!=NULL)
-        delete m_Model;
+    if (m_Mesh!=NULL)
+        delete m_Mesh;
     if (m_Renderer!=NULL)
         delete m_Renderer;
 }
 
-void MeshRenderer::Reload(ModelElement_Group mElement, Shader* shader, Texture* texture)
+void MeshRenderer::Reload(rl::MeshElement_Group mElement, rl::Shader* shader, rl::Texture* texture)
 {
     m_Material->SetShader(shader);
     m_Material->SetTexture(texture);
-    m_Model = new Model(mElement.m_VboData,
-                        mElement.m_VboSize,
-                        mElement.m_VboLayout,
-                        new IndexBuffer((const unsigned int*)mElement.m_IboData, mElement.m_IboCnt));
+    m_Mesh = new    rl::Mesh(mElement.m_VboData,
+                             mElement.m_VboSize,
+                             mElement.m_VboLayout,
+                             (const unsigned int*)mElement.m_IboData,
+                             mElement.m_IboCnt);
 }
 
 void MeshRenderer::ApplyLight(Light* light)
@@ -168,7 +170,7 @@ void MeshRenderer::ApplyLight(Light* light)
     ml::Vector3f pos = light->GetTransform()->GetPosition();
     ml::Vector3f rot = light->GetTransform()->GetRotation();
     
-    Shader* shaderPtr = m_Material->GetShader();
+    rl::Shader* shaderPtr = m_Material->GetShader();
     shaderPtr->Use();
     shaderPtr->SetUniform3f("u_LightPos", pos.x, pos.y, pos.z);
     shaderPtr->SetUniform3f("u_LightDirection", rot.x, rot.y, rot.z);
@@ -192,14 +194,14 @@ void MeshRenderer::RenderPrepare()
         ApplyLight(Light::ActiveLights[i]);
     }
     
-    Shader* shaderPtr = m_Material->GetShader();
+    rl::Shader* shaderPtr = m_Material->GetShader();
     shaderPtr->Use();
     if (GetMaterial()->GetTexture()!=NULL)
     {
         shaderPtr->SetUniform1i("u_Texture", 0);
         shaderPtr->SetUniform1i("u_TextureExist", 1);
     }
-    MaterialAttribs* attribs = GetMaterial()->GetAttribs();
+    rl::MaterialAttribs* attribs = GetMaterial()->GetAttribs();
     ml::Vector3f mat_ambient = attribs->m_Ambient;
     ml::Vector3f mat_diffuse = attribs->m_Diffuse;
     ml::Vector3f mat_specular = attribs->m_Specular;

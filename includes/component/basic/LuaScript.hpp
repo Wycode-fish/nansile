@@ -152,7 +152,7 @@ public:
 public:
     bool LuaPushStack(const char* varName);
     void ClearLuaStack();
-    
+    std::vector<std::string> GetTableKeys( const char* tname) const;
 public:
     inline const char* GetFilePath() { return m_FilePath; }
     inline const lua_State* GetState() { return m_State; }

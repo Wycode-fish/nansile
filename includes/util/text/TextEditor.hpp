@@ -11,12 +11,23 @@
 
 #include <stdio.h>
 #include <string>
+#include <sstream>
 
 class TextEditor
 {
 public:
     static std::string StripLuaFileName(const std::string& path);
+    static std::string GetDirectoryFromPath(const std::string& path);
+    static const char*  CStrConcate(const char* str1, const char* str2);
     static char* Str2ValuePtr(const std::string& str);
+    static std::string GetFileSuffix(const char* fileName);
+    
+    template <typename T>
+    static bool GetValueFromString( const std::string & value, T & result )
+    {
+        std::istringstream iss( value );
+        return !( iss >> result ).fail();
+    }
 private:
     
 };

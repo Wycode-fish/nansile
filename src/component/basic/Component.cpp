@@ -46,3 +46,9 @@ void Component::Update()
 {
     
 }
+
+void Component::OnRender()
+{
+    
+}
+

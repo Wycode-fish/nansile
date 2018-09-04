@@ -1,0 +1,227 @@
+#version 330 core
+
+// ========== DATA STRUCTURE ==========
+struct Material
+{
+    vec3        ambient;
+    vec3        diffuse;
+    vec3        specular;
+    float       shiness;
+    float       transparency;
+};
+
+struct Light
+{
+    vec3        ambient;
+    vec3        diffuse;
+    vec3        specular;
+    float       attenuation_Kc; // constant;
+    float       attenuation_Kl; // linear;
+    float       attenuation_Kq; // quadratic;
+    float       intensity;
+};
+
+
+// ========== INPUT DATA FROM .VS ==========
+in          vec2        v_Tcs;
+in          vec3        v_VPos;
+in          vec3        v_Normal;
+in          vec3        v_FragPos;
+
+
+// ========== INPUT DATA UNIFORM VARs ==========
+uniform     int         u_TextureExist = 0;
+uniform     Material    u_Material;
+
+uniform     Light       u_Light;
+uniform     vec3        u_LightColor = vec3(1.0f, 1.0f, 1.0f);
+uniform     vec3        u_LightPos = vec3(0.0f, 0.0f, 0.0f);
+uniform     vec3        u_LightDirection = vec3(0.0f, 0.0f, -1.0f);
+uniform     int         u_LightType = 0;
+uniform     vec3        u_CameraPos;
+
+// ========== TEXTURES ==========
+uniform sampler2D u_TextureDiffuse1;
+uniform sampler2D u_TextureDiffuse2;
+uniform sampler2D u_TextureDiffuse3;
+uniform sampler2D u_TextureDiffuse4;
+uniform sampler2D u_TextureDiffuse5;
+uniform sampler2D u_TextureDiffuse6;
+uniform sampler2D u_TextureDiffuse7;
+
+uniform sampler2D u_TextureSpecular1;
+uniform sampler2D u_TextureSpecular2;
+uniform sampler2D u_TextureSpecular3;
+uniform sampler2D u_TextureSpecular4;
+uniform sampler2D u_TextureSpecular5;
+
+uniform sampler2D u_TextureHeight1;
+uniform sampler2D u_TextureHeight2;
+uniform sampler2D u_TextureHeight3;
+uniform sampler2D u_TextureHeight4;
+uniform sampler2D u_TextureHeight5;
+uniform sampler2D u_TextureHeight6;
+uniform sampler2D u_TextureHeight7;
+
+// ========== OUTPUT DATA ==========
+out         vec4        color;
+
+
+// ========== HELPER FUNCS ==========
+float get_attenuation_factor (float light_intensity, float kc, float kl, float kq, float light2frag_dist)
+{
+    return light_intensity / (kc + kl * light2frag_dist + pow(kq, 2) * light2frag_dist);
+}
+
+vec3 get_ambient_color(vec3 curr_color,
+                       vec3 mat_ambient, vec3 light_ambient)
+{
+    return curr_color * mat_ambient * light_ambient;
+}
+
+vec3 get_diffuse_color(vec3 curr_color,
+                       vec3 light_pos, vec3 light_dir, int light_type,
+                       vec3 frag_pos, vec3 face_normal,
+                       vec3 mat_diffuse, vec3 light_diffuse)
+{
+    float cosine;
+    if (light_type == 0)    // point light
+    {
+        cosine = max( dot(normalize(light_pos - frag_pos), normalize(face_normal)), 0.0f);
+    }
+    else if (light_type == 1)    // directional light
+    {
+        cosine = max( dot(normalize((-1.0f)*light_dir), normalize(face_normal)), 0.0f);
+        
+    }
+    else if (light_type == 2)    // spot light
+    {
+        cosine = max( dot(normalize(light_pos - frag_pos), normalize(face_normal)), 0.0f);
+    }
+    
+    return curr_color * cosine * mat_diffuse * light_diffuse;
+}
+
+vec3 get_specular_color(vec3 curr_color,
+                        vec3 light_pos, vec3 light_dir, int light_type,
+                        vec3 camera_pos, vec3 frag_pos, vec3 face_normal,
+                        vec3 mat_specular, float mat_shiness, vec3 light_specular)
+{
+    vec3 reflect_direction;
+    if (light_type == 0)    // point light
+    {
+        reflect_direction = reflect( normalize(frag_pos - light_pos), normalize(face_normal));
+    }
+    else if (light_type == 1)   // directional light
+    {
+        reflect_direction = reflect( normalize(light_dir), normalize(face_normal));
+    }
+    else if (light_type == 2)   // spot light
+    {
+        reflect_direction = reflect( normalize(light_dir), normalize(face_normal));
+        
+    }
+    
+    vec3 view_direction         = normalize( camera_pos - frag_pos);
+    float specular_cosine       = max( dot( reflect_direction, view_direction ), 0.0f );
+    float specular_intensity    = pow( specular_cosine, mat_shiness);
+    
+    return curr_color * mat_specular * light_specular * specular_intensity;
+}
+
+
+// ========== MAIN ==========
+void main()
+{
+    //    float light_intensity = 5.0f;
+    float light2frag_dist = length(u_LightPos - v_FragPos);
+    float attenuation_factor = (u_LightType==1)?1.0f:get_attenuation_factor(u_Light.intensity,
+                                                                            u_Light.attenuation_Kc, u_Light.attenuation_Kl, u_Light.attenuation_Kq,
+                                                                            light2frag_dist);
+    
+    vec3 color_with_light = vec3(0.f, 0.f, 0.f);
+    
+    vec3 tex_diffuse_color = vec3(0.f, 0.f, 0.f);
+    vec3 tex_specular_color = vec3(0.f, 0.f, 0.f);
+    vec3 tex_height_color = vec3(0.f, 0.f, 0.f);
+    if (u_TextureExist>0)
+    {
+        tex_diffuse_color = 1.0f / 7.0f * texture(u_TextureDiffuse1, v_Tcs).rgb
+        + 1.0f / 7.0f * texture(u_TextureDiffuse2, v_Tcs).rgb
+        + 1.0f / 7.0f * texture(u_TextureDiffuse3, v_Tcs).rgb
+        + 1.0f / 7.0f * texture(u_TextureDiffuse4, v_Tcs).rgb
+        + 1.0f / 7.0f * texture(u_TextureDiffuse5, v_Tcs).rgb
+        + 1.0f / 7.0f * texture(u_TextureDiffuse6, v_Tcs).rgb
+        + 1.0f / 7.0f * texture(u_TextureDiffuse7, v_Tcs).rgb;
+        
+        tex_specular_color = 1.0f / 5.0f * texture(u_TextureDiffuse1, v_Tcs).rgb
+        + 1.0f / 5.0f * texture(u_TextureDiffuse2, v_Tcs).rgb
+        + 1.0f / 5.0f * texture(u_TextureDiffuse3, v_Tcs).rgb
+        + 1.0f / 5.0f * texture(u_TextureDiffuse4, v_Tcs).rgb
+        + 1.0f / 5.0f * texture(u_TextureDiffuse5, v_Tcs).rgb;
+        
+        tex_height_color = 1.0f / 7.0f * texture(u_TextureHeight1, v_Tcs).rgb
+        + 1.0f / 7.0f * texture(u_TextureHeight2, v_Tcs).rgb
+        + 1.0f / 7.0f * texture(u_TextureHeight3, v_Tcs).rgb
+        + 1.0f / 7.0f * texture(u_TextureHeight4, v_Tcs).rgb
+        + 1.0f / 7.0f * texture(u_TextureHeight5, v_Tcs).rgb
+        + 1.0f / 7.0f * texture(u_TextureHeight6, v_Tcs).rgb
+        + 1.0f / 7.0f * texture(u_TextureHeight7, v_Tcs).rgb;
+    }
+    else
+    {
+        tex_diffuse_color = vec3(0.4f, 0.4f, 0.4f) + u_LightColor / u_Light.intensity;
+        tex_specular_color = vec3(0.4f, 0.4f, 0.4f) + u_LightColor / u_Light.intensity;
+    }
+    
+    vec3 ambient = get_ambient_color( tex_diffuse_color, u_Material.ambient, u_Light.ambient);
+    vec3 diffuse = get_diffuse_color( (tex_diffuse_color + tex_height_color) + u_LightColor,
+                                     u_LightPos, u_LightDirection, u_LightType,
+                                     v_FragPos, v_Normal,
+                                     u_Material.diffuse, u_Light.diffuse);
+    vec3 specular = get_specular_color( (tex_specular_color + tex_height_color) + u_LightColor,
+                                       u_LightPos, u_LightDirection, u_LightType,
+                                       u_CameraPos, v_FragPos, v_Normal,
+                                       u_Material.specular, u_Material.shiness, u_Light.specular);
+    
+    color = vec4((ambient + diffuse + specular) * tex_diffuse_color, u_Material.transparency);
+//    vec3 temp = 1.0f / 16.0f * texture(u_TextureDiffuse1, v_Tcs).xyz +
+//    1.0f / 16.0f * texture(u_TextureDiffuse2, v_Tcs).xyz +
+//    1.0f / 16.0f * texture(u_TextureDiffuse3, v_Tcs).xyz +
+//    1.0f / 16.0f * texture(u_TextureDiffuse4, v_Tcs).xyz +
+//    1.0f / 16.0f * texture(u_TextureDiffuse5, v_Tcs).xyz +
+//    1.0f / 16.0f * texture(u_TextureDiffuse6, v_Tcs).xyz +
+//    1.0f / 16.0f * texture(u_TextureDiffuse7, v_Tcs).xyz +
+//    1.0f / 16.0f * texture(u_TextureSpecular1, v_Tcs).xyz +
+//    1.0f / 16.0f * texture(u_TextureSpecular2, v_Tcs).xyz +
+//    1.0f / 16.0f * texture(u_TextureSpecular3, v_Tcs).xyz +
+//    1.0f / 16.0f * texture(u_TextureSpecular4, v_Tcs).xyz +
+//    1.0f / 16.0f * texture(u_TextureSpecular5, v_Tcs).xyz +
+//    1.0f / 16.0f * texture(u_TextureHeight1, v_Tcs).xyz +
+//    1.0f / 16.0f * texture(u_TextureHeight2, v_Tcs).xyz +
+//    1.0f / 16.0f * texture(u_TextureHeight3, v_Tcs).xyz +
+//    1.0f / 16.0f * texture(u_TextureHeight4, v_Tcs).xyz;
+//    if (u_TextureExist>0)
+//        color_with_light = temp * 0.8f + u_LightColor * 0.2f;
+//    else
+//        color_with_light = vec3(0.4f, 0.4f, 0.4f) + u_LightColor / u_Light.intensity;
+//
+//    // Ambient Light
+//    vec3 ambient_light = get_ambient_color(color_with_light,
+//                                           u_Material.ambient, u_Light.ambient);
+//
+//    // Diffuse Light
+//    vec3 diffuse_light = get_diffuse_color( color_with_light,
+//                                           u_LightPos, u_LightDirection, u_LightType,
+//                                           v_FragPos, v_Normal,
+//                                           u_Material.diffuse, u_Light.diffuse);
+//    // Specular Light
+//    vec3 specular_light = get_specular_color( color_with_light,
+//                                             u_LightPos, u_LightDirection, u_LightType,
+//                                             u_CameraPos, v_FragPos, v_Normal,
+//                                             u_Material.specular, u_Material.shiness, u_Light.specular);
+//
+//    color = vec4((ambient_light + diffuse_light + specular_light) * attenuation_factor, u_Material.transparency);
+}
+
+

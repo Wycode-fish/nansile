@@ -32,6 +32,7 @@ public:
 public:
     virtual void Update();
     virtual void OnRender();
+    virtual void OnRenderOutline();
     
 public:
     virtual void MeshRendererBind();

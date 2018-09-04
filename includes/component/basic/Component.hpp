@@ -46,6 +46,7 @@ public:
     Component(  GameObject* gameObject, const std::string& tag  );
     virtual     ~Component();
     virtual     void                    Update();
+    virtual     void                    OnRender();
     
 public:
     inline      void                    SetTag(const char* tag) { m_Tag = tag; }

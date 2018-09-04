@@ -12,26 +12,29 @@
 #include <stdio.h>
 #include <vector>
 
-class VertexBuffer;
-class VertexBufferLayout;
+namespace rl {
+    class VertexBuffer;
+    class VertexBufferLayout;
 
-class VertexArray
-{
-public:
-    enum VERTEX_ATTRIB
+    class VertexArray
     {
-        VTX_POS, VTX_TCOOR
+    public:
+        enum VERTEX_ATTRIB
+        {
+            VTX_POS, VTX_TCOOR
+        };
+        VertexArray();
+        ~VertexArray();
+        void Bind(VertexBuffer& vbo, VertexBufferLayout& layout) const;
+        void Bind(VertexBuffer& vpos, VertexBuffer& tcs) const;
+        void Bind(std::vector<VertexBuffer*> vbos) const;
+        void Unbind(VertexBuffer& vbo) const;
+        void Unbind() const;
+    private:
+        void Init();
+    private:
+        unsigned int m_RendererID;
     };
-    VertexArray();
-    ~VertexArray();
-    void Bind(VertexBuffer& vbo, VertexBufferLayout& layout) const;
-    void Bind(VertexBuffer& vpos, VertexBuffer& tcs) const;
-    void Bind(std::vector<VertexBuffer*> vbos) const;
-    void Unbind(VertexBuffer& vbo) const;
-    void Unbind() const;
-private:
-    void Init();
-private:
-    unsigned int m_RendererID;
-};
+        
+}
 #endif /* VertexArray_hpp */

@@ -13,11 +13,17 @@
 #include "Renderer.hpp"
 #include "Camera.hpp"
 
-Camera* DisplaySys::Main_Camera = new Camera();
-Timer   DisplaySys::MsPFTimer = Timer::DurationClock(1000.0f/60.0f);
+DisplaySys* DisplaySys::m_Instance = nullptr;
 
-DisplaySys::DisplaySys(int h, int w, const char* t)
-: height(h), width(w), title(t), window(NULL), renderer(NULL)
+DisplaySys* DisplaySys::GetInstance(unsigned height, unsigned width, const char* name)
+{
+    if (m_Instance == nullptr)
+        m_Instance = new DisplaySys(height, width, name);
+    return m_Instance;
+}
+
+DisplaySys::DisplaySys(unsigned h, unsigned w, const char* t)
+: m_MainCamera(new Camera()), m_MsPFTimer(Timer::DurationClock(1000.0f/60.0f)), m_Height(h), m_Width(w), title(t), window(NULL), renderer(NULL)
 {
     if (Init() < 0)
     {
@@ -34,7 +40,7 @@ DisplaySys::~DisplaySys()
 
 int DisplaySys::Init()
 {
-    renderer = new Renderer();
+    renderer = new rl::Renderer();
     
     if (!glfwInit())
     {
@@ -50,7 +56,7 @@ int DisplaySys::Init()
     
     std::cout<<"[GLFW]: glfw version - "<<glfwGetVersionString()<<std::endl;
     
-    if((window = glfwCreateWindow(width, height, title, NULL, NULL)) == NULL)
+    if((window = glfwCreateWindow(m_Width, m_Height, title, NULL, NULL)) == NULL)
     {
         std::cout<<"[GLFW]: glfwCreateWindow(width, height, title, NULL, NULL) failed."<<std::endl;
         getchar();
@@ -58,7 +64,7 @@ int DisplaySys::Init()
         return -1;
     }
     const GLFWvidmode* vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-    glfwSetWindowPos(window, (vidmode->width-width)/2, (vidmode->height-height)/2);
+    glfwSetWindowPos(window, (vidmode->width-m_Width)/2, (vidmode->height-m_Height)/2);
     
     glfwMakeContextCurrent(window);
     
@@ -74,11 +80,16 @@ int DisplaySys::Init()
     // Ensure we can capture the escape key being pressed below
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
     glClearColor(1.f, 1.f, 1.f, 1.0f);
-    GLCALL(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); 
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDepthMask(GL_TRUE);
+    
+//    glEnable(GL_STENCIL_TEST);
+//    glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+    
     return 1;
 }
 

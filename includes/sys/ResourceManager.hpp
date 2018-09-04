@@ -16,8 +16,12 @@
 #include <utility>
 #include <string>
 
-class Texture;
-class Shader;
+namespace rl {
+    class Texture;
+    class Shader;
+    class Model;
+}
+
 class GameObject;
 class LuaScript;
 
@@ -41,13 +45,15 @@ public:
     ~ResourceManager();
   
 private:
-    static std::unordered_map<std::string, Texture* const> m_Textures;
+    static std::unordered_map<std::string, rl::Texture* const> m_Textures;
     static std::unordered_map<std::string, LuaScript* const> m_LuaScripts;
+//    static std::unordered_map<std::string, rl::Model* const> m_Models;
+
 public:
     static inline GAMEOBJECT_GENERATORS GetGenerators() { return m_Generators; }
-    static inline std::unordered_map<std::string, Texture* const> GetTextureResourceMap() { return m_Textures; }
+    static inline std::unordered_map<std::string, rl::Texture* const> GetTextureResourceMap() { return m_Textures; }
     static inline std::unordered_map<std::string, LuaScript* const> GetLuaScriptResourceMap() { return m_LuaScripts; }
-
+//    static inline std::unordered_map<std::string, rl::Model* const> GetModelResourceMap() { return m_Models; }
 private:
 //    static std::vector<std::pair<const char*, OBJ_GENERATOR> > m_Generators;
     static GAMEOBJECT_GENERATORS m_Generators;
@@ -59,6 +65,9 @@ private:
     void LoadMedia();
     void LoadGenerators();
     void LoadScript();
+    
+private:
+    void PrepareStaticShaders() const;
     
 public:
     template<typename T>

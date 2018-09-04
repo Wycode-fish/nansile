@@ -12,6 +12,7 @@
 #include "GameObjectPanel.hpp"
 #include "DisplaySys.hpp"
 #include "MeshRenderer.hpp"
+#include "MeshRendererAssimp.hpp"
 #include "Camera.hpp"
 #include <string>
 
@@ -40,12 +41,12 @@ namespace gui {
             objNames.push_back(cstr);
         }
         
-        ImGui::ListBox("", &m_CurrSelected, objNames.data(), objs.size());
+        ImGui::ListBox("", &m_CurrSelected, objNames.data(), static_cast<int>(objs.size()));
         ImGui::SameLine(); ShowHelpMarker("select game objects.");
         ImGui::NewLine();
         ImGui::Separator();
         ImGui::NewLine();
-        int generatorsSize = ResourceManager::GetGenerators().names.size();
+        int generatorsSize = static_cast<int>(ResourceManager::GetGenerators().names.size());
         ImGui::Combo("", &m_CurrToBeCreated,
                      ResourceManager::GetGenerators().names.data(),
                      generatorsSize);
@@ -72,27 +73,28 @@ namespace gui {
     {
         if (m_GameObjectPanel->GetGameObject() != m_Scene->GetGameObjects()[m_CurrSelected])
         {
-            GameObject* selectedGameObj = m_Scene->GetGameObjects()[m_CurrSelected];
+            m_Scene->SetSelectedGameObject(m_CurrSelected);
             
-            if (m_GameObjectPanel->GetGameObject() != DisplaySys::Main_Camera)
-            {
-//                ml::Vector3f posOffset = DisplaySys::Main_Camera->GetTransform()->GetPosition() - m_GameObjectPanel->GetGameObject()->GetTransform()->GetPosition();
-                ml::Vector3f posOffset = ml::Vector3f(0.0f, 0.0f, (10) * selectedGameObj->GetTransform()->GetScale().z);
-                DisplaySys::Main_Camera->GetTransform()->SetPosition(selectedGameObj->GetTransform()->GetPosition() + posOffset);
-                DisplaySys::Main_Camera->GetTransform()->SetRotation(selectedGameObj->GetTransform()->GetPosition() - DisplaySys::Main_Camera->GetTransform()->GetPosition());
-            }
-            
-            MeshRenderer* mr_curr;
-            if ((mr_curr = m_GameObjectPanel->GetGameObject()->GetComponent<MeshRenderer>()) != NULL)
-            {
-                mr_curr->GetMaterial()->GetAttribs()->Dimmer();
-            }
-            MeshRenderer* mr_new;
-            if ((mr_new = selectedGameObj->GetComponent<MeshRenderer>()) != NULL)
-            {
-                mr_new->GetMaterial()->GetAttribs()->Brighter();
-            }
-            m_GameObjectPanel->BindGameObject(selectedGameObj);
+//            GameObject* selectedGameObj = m_Scene->GetGameObjects()[m_CurrSelected];
+//
+//            if (m_GameObjectPanel->GetGameObject() != DisplaySys::GetInstance()->GetMainCamera())
+//            {
+//                ml::Vector3f posOffset = ml::Vector3f(0.0f, 0.0f, (10) * selectedGameObj->GetTransform()->GetScale().z);
+//                DisplaySys::GetInstance()->GetMainCamera()->GetTransform()->SetPosition(selectedGameObj->GetTransform()->GetPosition() + posOffset);
+//                DisplaySys::GetInstance()->GetMainCamera()->GetTransform()->SetRotation(selectedGameObj->GetTransform()->GetPosition() - DisplaySys::GetInstance()->GetMainCamera()->GetTransform()->GetPosition());
+//            }
+//
+//            rl::MeshRenderer* mr_curr;
+//            if ((mr_curr = m_GameObjectPanel->GetGameObject()->GetComponent<rl::MeshRenderer>()) != NULL)
+//            {
+//                mr_curr->GetMaterial()->GetAttribs()->Dimmer();
+//            }
+//            rl::MeshRenderer* mr_new;
+//            if ((mr_new = selectedGameObj->GetComponent<rl::MeshRenderer>()) != NULL)
+//            {
+//                mr_new->GetMaterial()->GetAttribs()->Brighter();
+//            }
+            m_GameObjectPanel->BindGameObject(m_Scene->GetGameObjects()[m_CurrSelected]);
             
         }
         

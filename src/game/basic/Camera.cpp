@@ -100,7 +100,13 @@ void Camera::m_ViewMatUpdate()
 void Camera::m_ProjMatUpdate()
 {
     //  ----- FOV Update() ----- //
-    m_FOV += ControlSys::GetMouseScrollOffset().second * 0.2f;
+    float fovIncre = ControlSys::GetMouseScrollOffset().second * 0.2f;
+    if (fovIncre == 0.f)
+    {
+        ControlSys::ResetScrollOffset();
+        return;
+    }
+    m_FOV += fovIncre;
     if (m_FOV < 1.0f) m_FOV = 1.0f;
     if (m_FOV > 89.0f) m_FOV = 89.0f;
     m_Proj = ml::Perspective(ml::ToRadian(m_FOV), VWidth/VHeight, 0.01f, 100.0f);

@@ -15,8 +15,10 @@
 #include "GameObject.hpp"
 
 class Camera;
-class CubeMap;
-class Shader;
+namespace rl {
+    class CubeMap;
+    class Shader;
+}
 
 class SkyBox: public GameObject
 {

@@ -8,9 +8,10 @@
 
 #include "Scene.hpp"
 #include "GameObject.hpp"
+#include "Renderer.hpp"
 
 Scene::Scene()
-:m_GameObjects(std::vector<GameObject*>())
+:m_GameObjects(std::vector<GameObject*>()), m_SelectedGameObject(nullptr)
 {
     
 }
@@ -36,7 +37,11 @@ void Scene::Render()
 {
     for (int i=0; i<m_GameObjects.size(); i++)
     {
-        m_GameObjects[i]->OnRender();
+        if (m_SelectedGameObject != nullptr && m_GameObjects[i] == m_SelectedGameObject)
+        {
+            m_SelectedGameObject->OnRenderOutline();
+        }
+        else m_GameObjects[i]->OnRender();
     }
 }
 

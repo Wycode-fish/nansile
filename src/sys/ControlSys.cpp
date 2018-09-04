@@ -91,9 +91,13 @@ int ControlSys::Init()
 int ControlSys::Update()
 {
     if (IsOnUI)
+    {
         glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
     else
+    {
         glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    }
     return 1;
 }
 

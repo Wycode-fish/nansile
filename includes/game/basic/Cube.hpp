@@ -20,10 +20,10 @@ public:
 public:
     Cube();
     ~Cube();
-    void MeshRendererBind();
-//    void Update();
-    void OnRender();
-
+    void MeshRendererBind() override;
+//    void Update() override;
+//    void OnRender() override;
+//    void OnRenderOutline() override;
 private:
     
 };

@@ -31,9 +31,15 @@ public:
 public:
     void AddGameObject(GameObject* gameObject);
     
+public:
+    inline void SetSelectedGameObject(const int& idx) { m_SelectedGameObject = m_GameObjects[idx]; }
+
 private:
     std::vector<GameObject*> m_GameObjects;
 //    std::vector<const char*> m_ObjNames;
     std::unordered_map<const char*, unsigned int> m_GameObjectCounter;
+    
+private:
+    GameObject* m_SelectedGameObject;
 };
 #endif /* Scene_hpp */

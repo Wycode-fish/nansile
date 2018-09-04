@@ -12,6 +12,7 @@
 #include "ResourceManager.hpp"
 #include "Attribute.hpp"
 #include "Value.hpp"
+#include "TextEditor.hpp"
 
 LuaScript* LuaScript::GetLuaScript(const char *scriptName, const char *componentName)
 {
@@ -43,13 +44,13 @@ LuaScript::LuaScript(GameObject* gameObject, const char* scriptName, const char*
         .addProperty("rotation", &Transform::GetRotation, &Transform::SetRotation)
         .addProperty("scale", &Transform::GetScale, &Transform::SetScale)
         .endClass()
-        .beginClass<MaterialAttribs>("MaterialAttribs")
-        .addProperty("ambient", &MaterialAttribs::GetMatAmbient, &MaterialAttribs::SetMatAmbient)
-        .addProperty("diffuse", &MaterialAttribs::GetMatDiffuse, &MaterialAttribs::SetMatDiffuse)
-        .addProperty("specular", &MaterialAttribs::GetMatSpecular, &MaterialAttribs::SetMatSpecular)
+        .beginClass<rl::MaterialAttribs>("MaterialAttribs")
+        .addProperty("ambient", &rl::MaterialAttribs::GetMatAmbient, &rl::MaterialAttribs::SetMatAmbient)
+        .addProperty("diffuse", &rl::MaterialAttribs::GetMatDiffuse, &rl::MaterialAttribs::SetMatDiffuse)
+        .addProperty("specular", &rl::MaterialAttribs::GetMatSpecular, &rl::MaterialAttribs::SetMatSpecular)
         .endClass()
-        .beginClass<Material>("Material")
-        .addProperty("matAttribs", &Material::GetAttribs)
+        .beginClass<rl::Material>("Material")
+        .addProperty("matAttribs", &rl::Material::GetAttribs)
         .endClass()
         .beginClass<Component>("Component")
         .addProperty("tag", &Component::GetTagCstr)
@@ -260,6 +261,44 @@ void LuaScript::ClearLuaStack()
     m_StkLevel = 0;
     lua_pop(m_State, n);
 }
+
+std::vector<std::string> LuaScript::GetTableKeys( const char* tname) const
+{
+    std::string code =
+        "function getKeys(name) "
+        "s = \"\""
+        "for k, v in pairs(_G." + std::string(tname) + ") do "
+        "    s = s..k..\",\" "
+        "    end "
+        "return s "
+        "end";
+    
+    std::vector<std::string> res;
+    luaL_loadstring(m_State, code.c_str());
+    lua_pcall(m_State, 0, 0, 0);
+    lua_getglobal(m_State, "getKeys");
+    lua_pushstring(m_State, tname);
+    lua_pcall(m_State, 1, 1, 0);
+    std::string keyStr = std::string((const char*)lua_tostring(m_State, -1));
+    
+    int i=0;
+    std::string aKey;
+    while (i<keyStr.length())
+    {
+        if (keyStr[i]!=',')
+        {
+            aKey += keyStr[i];
+        }
+        else
+        {
+            res.push_back(aKey);
+            aKey = "";
+        }
+        i++;
+    }
+    return res;
+}
+
 
 void LuaScript::m_GetTableKeys(const char* tableName)
 {

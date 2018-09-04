@@ -24,8 +24,10 @@ std::chrono::time_point<std::chrono::high_resolution_clock>  Timer::GetCurrentTi
 
 double Timer::MsSince(std::chrono::time_point<std::chrono::high_resolution_clock> startTime)
 {
-    std::chrono::duration<double> elapsed = std::chrono::high_resolution_clock::now() - startTime;
-    return elapsed.count() * 1000;
+//    std::chrono::duration<double> elapsed = std::chrono::high_resolution_clock::now() - startTime;
+//    return elapsed.count() * 1000;
+    
+    return std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - startTime).count() / 1000.0f;
 }
 
 Timer Timer::DurationClock(double duration)
@@ -47,7 +49,8 @@ double Timer::GetDelta()
 
 bool Timer::DurationAlarm()
 {
-    bool res = MsSince(m_DuraClk_UpdatePoint)/m_DuraClk_Duration >= 1.0f;
+    double duration = MsSince(m_DuraClk_UpdatePoint);
+    bool res = duration/m_DuraClk_Duration >= 1.0f;
     if (res)
         m_DuraClk_UpdatePoint = GetCurrentTime();
     return res;

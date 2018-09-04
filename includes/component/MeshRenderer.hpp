@@ -28,29 +28,28 @@ class MeshRenderer: public Component
 public:
     static MeshRenderer* BuildFromScript(const char* meshInfoPath);
 public:
-    MeshRenderer(GameObject* gameObject, const std::vector<ModelElement> elements, Material* material = new Material());
-    
-    MeshRenderer(GameObject* gameObject, ModelElement_Group mElement, Material* material = new Material());
+    MeshRenderer(GameObject* gameObject, const std::vector<rl::MeshElement> elements, rl::Material* material = new rl::Material());
+    MeshRenderer(GameObject* gameObject, rl::MeshElement_Group mElement, rl::Material* material = new rl::Material());
     ~MeshRenderer();
     
-    void ModelInit(const std::vector<ModelElement>& elements);
+    void MeshInit(const std::vector<rl::MeshElement>& elements);
     void RenderPrepare();
     void ApplyLight(Light* light);
     
     void Draw();
     void Render();
     
-    inline Model* GetModel() const { return m_Model; }
-    inline Material* GetMaterial() const { return m_Material; }
-    inline Renderer* GetRenderer() const { return m_Renderer; }
+    inline rl::Mesh* GetMesh() const { return m_Mesh; }
+    inline rl::Material* GetMaterial() const { return m_Material; }
+    inline rl::Renderer* GetRenderer() const { return m_Renderer; }
     inline bool& GetIsActive() { return m_IsActive; }
     
 public:
-    void Reload(ModelElement_Group mElement, Shader* shader, Texture* texture);
+    void Reload(rl::MeshElement_Group mElement, rl::Shader* shader, rl::Texture* texture);
 private:
-    Model* m_Model;
-    Material* m_Material;
-    Renderer* m_Renderer;
+    rl::Mesh* m_Mesh;
+    rl::Material* m_Material;
+    rl::Renderer* m_Renderer;
     bool m_IsActive;
 };
 #endif /* MeshRenderer_hpp */

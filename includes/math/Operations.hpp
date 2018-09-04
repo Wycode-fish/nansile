@@ -16,8 +16,13 @@
 namespace ml {
     
     // ---------- Number ----------
-    float ToRadian(const float& degree);
-    
+    template<typename T>
+    T Pi ()
+    {
+        return static_cast<T>(3.141592653l);
+    }
+    float   ToRadian(const float& degree);
+    int     Rand(const int& start, const int& end);
     
     // ---------- Vector ----------
     float       Length(const Vector3f& vec);

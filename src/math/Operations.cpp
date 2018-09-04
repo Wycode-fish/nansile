@@ -17,6 +17,11 @@ namespace ml {
         return degree * 3.141593f / 180.0f;
     }
     
+    int Rand(const int& start, const int& end)
+    {
+        return rand() % (end + 1 - start) + start;
+    }
+    
     
     // ---------- Vector ----------
     float Length(const Vector3f& vec)

@@ -15,40 +15,53 @@
 #include <GLFW/glfw3.h>
 
 #define ASSERT(x) if(!x) raise(SIGKILL)
-#define GLCALL(x) GLClearError();\
+#define GLCALL(x) rl::GLClearError();\
 x;\
-ASSERT(GLCheckError(#x, __FILE__, __LINE__))
+ASSERT(rl::GLCheckError(#x, __FILE__, __LINE__))
 
-extern void GLClearError();
-extern bool GLCheckError(const char* command, const char* filePath, const int line);
+#define DRAW_MODE_LINES     0x01
+#define DRAW_MODE_TRIANGLES 0x00
 
-class VertexArray;
-class IndexBuffer;
-class VertexBuffer;
-class VertexBufferLayout;
-class Shader;
-class Model;
-class Texture;
-
-class Renderer
-{
-public:
-    void Draw(Model& model) const;
-    void DrawLines(Model& model) const;
-public:
-    Renderer();
-    ~Renderer();
-    ////// DRAW SINGLE VBO //////
-    void Render(VertexArray& vao, VertexBuffer& vbo, VertexBufferLayout& layout, IndexBuffer& ibo, Shader& shader) const;
+namespace rl {
     
-    ////// DRAW MULTIPLE VBO //////
-    void Render(VertexArray& vao, VertexBuffer& vpos, VertexBuffer& tcs, IndexBuffer& ibo, Shader& shader) const;
-    
-    ////// DRAW MODEL //////
-    void Render(Model& model, Shader& shader) const;
-    void Render(Model& model, Shader& shader, Texture& texture) const;
-    
-    void Clear() const;
-};
+    extern void GLClearError();
+    extern bool GLCheckError(const char* command, const char* filePath, const int line);
 
+    class VertexArray;
+    class IndexBuffer;
+    class VertexBuffer;
+    class VertexBufferLayout;
+    class Shader;
+    class Mesh;
+    class Texture;
+
+    class Renderer
+    {
+    public:
+        void Draw(rl::Mesh& mesh) const;
+        void DrawLines(rl::Mesh& mesh) const;
+        void DrawInstances(rl::Mesh& mesh, unsigned instanceNum) const;
+    public:
+        Renderer( const unsigned char& drawMode = DRAW_MODE_TRIANGLES);
+        ~Renderer();
+        ////// DRAW SINGLE VBO //////
+        void Render(VertexArray& vao, VertexBuffer& vbo, VertexBufferLayout& layout, IndexBuffer& ibo, Shader& shader) const;
+        
+        ////// DRAW MULTIPLE VBO //////
+        void Render(VertexArray& vao, VertexBuffer& vpos, VertexBuffer& tcs, IndexBuffer& ibo, Shader& shader) const;
+        
+        ////// DRAW MODEL //////
+        void Render(rl::Mesh& mesh, Shader& shader) const;
+        void Render(rl::Mesh& mesh, Shader& shader, Texture& texture) const;
+        
+        void Clear() const;
+        
+    public:
+        inline unsigned char  GetDrawMode() const { return m_DrawMode; }
+        inline void           SetDrawMode(const unsigned char& mode) { m_DrawMode = mode; }
+        
+    private:
+        unsigned char m_DrawMode;
+    };
+}
 #endif /* Renderer_hpp */

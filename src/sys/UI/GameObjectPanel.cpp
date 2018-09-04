@@ -7,7 +7,7 @@
 //
 
 #include "GameObjectPanel.hpp"
-#include "Operations.hpp"
+#include "ml.h"
 #include "MeshRendererPanel.hpp"
 
 
@@ -88,7 +88,7 @@ namespace gui {
         ImGui::CollapsingHeader("TRANSFORM");
         ImGui::NewLine();
         
-        float pi = glm::pi<float>();
+        float pi = ml::Pi<float>();
         ImGui::SliderFloat3("position", ml::ValuePtr(m_GameObject->GetTransform()->GetPositionRef()), -VWidth, VWidth);
         ImGui::SliderFloat3("rotation(PI)", ml::ValuePtr(m_GameObject->GetTransform()->GetRotationRef()), -1.0f * pi, 1.0f * pi);
         ImGui::SliderFloat3("scale", ml::ValuePtr(m_GameObject->GetTransform()->GetScaleRef()), 0.0f, VWidth);

@@ -18,10 +18,10 @@ namespace rttr {
     {
     public:
         Attribute(Type type, const char*& name);
-        inline const char* GetName() const { return m_Name; }
-        inline Type GetType() const { return m_Type; }
+        inline const char*  GetName() const { return m_Name; }
+        inline Type         GetType() const { return m_Type; }
     private:
-        Type m_Type;
+        Type        m_Type;
         const char* m_Name;
     };
 }
